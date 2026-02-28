@@ -13,19 +13,22 @@ export const SortAscendingIcon = forwardRef<SVGSVGElement, SortAscendingIconProp
   ({ size = 16, className, ariaLabel, ...props }, ref) => (
     <svg
       ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
+      viewBox="0 0 16 16"
+      fill="none"
       className={cn("shrink-0", className)}
       aria-hidden={!ariaLabel}
       aria-label={ariaLabel}
       role={ariaLabel ? "img" : undefined}
       {...props}
     >
-<path d="M11.5 0.939453L15.5303 4.96978L14.4697 6.03044L12.25 3.81077V10.0001H10.75V3.81077L8.53033 6.03044L7.46967 4.96978L11.5 0.939453Z" fill="currentColor"/>
-<path d="M1 4.50011H5V6.00011H1V4.50011Z" fill="currentColor"/>
-<path d="M1 12.5001H11V14.0001H1V12.5001Z" fill="currentColor"/>
-<path d="M8 8.50011H1V10.0001H8V8.50011Z" fill="currentColor"/>
-</svg>
+      <path
+              fill="currentColor"
+              d="m11.5.94 4.03 4.03-1.06 1.06-2.22-2.22V10h-1.5V3.81L8.53 6.03 7.47 4.97zM1 4.5h4V6H1zM1 12.5h10V14H1zM8 8.5H1V10h7z"
+            />
+    </svg>
   )
 );
 SortAscendingIcon.displayName = "SortAscendingIcon";

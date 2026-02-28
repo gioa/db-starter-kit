@@ -16,6 +16,9 @@ import {
   Sparkles,
   X,
 } from "lucide-react";
+import { TopBar } from "@/components/shell/TopBar";
+import { Sidebar } from "@/components/shell/Sidebar";
+import { PageHeader } from "@/components/shell/PageHeader";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -61,6 +64,15 @@ import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbPage,
+  BreadcrumbEllipsis,
+} from "@/components/ui/breadcrumb";
 
 import * as Icons from "@/components/icons";
 
@@ -273,26 +285,23 @@ export default function DesignSystemPage() {
         </Section>
 
         {/* ── Buttons ────────────────────────────────────────────────────── */}
-        <Section id="buttons" title="Buttons" description="DuBois heights: 40px (default) · 32px (sm) · 24px (xs). All use 4px radius, weight 600.">
+        <Section id="buttons" title="Buttons" description="DuBois heights: 32px (sm, default) · 24px (xs). All use 4px radius, weight 600.">
           <div className="flex flex-col gap-6">
             <DemoRow label="Default">
-              <Button size="default">Primary</Button>
-              <Button size="sm">Primary sm</Button>
+              <Button>Primary</Button>
               <Button size="xs">Primary xs</Button>
-              <Button size="icon"><Plus className="h-4 w-4" /></Button>
               <Button size="icon-sm"><Plus className="h-4 w-4" /></Button>
+              <Button size="icon-xs"><Plus className="h-4 w-4" /></Button>
             </DemoRow>
             <DemoRow label="Outline">
-              <Button variant="outline" size="default">Outline</Button>
-              <Button variant="outline" size="sm">Outline sm</Button>
+              <Button variant="outline">Outline</Button>
               <Button variant="outline" size="xs">Outline xs</Button>
-              <Button variant="outline" size="icon"><Settings className="h-4 w-4" /></Button>
+              <Button variant="outline" size="icon-sm"><Settings className="h-4 w-4" /></Button>
             </DemoRow>
             <DemoRow label="Ghost">
-              <Button variant="ghost" size="default">Ghost</Button>
-              <Button variant="ghost" size="sm">Ghost sm</Button>
+              <Button variant="ghost">Ghost</Button>
               <Button variant="ghost" size="xs">Ghost xs</Button>
-              <Button variant="ghost" size="icon"><Trash2 className="h-4 w-4" /></Button>
+              <Button variant="ghost" size="icon-sm"><Trash2 className="h-4 w-4" /></Button>
             </DemoRow>
             <DemoRow label="Destructive">
               <Button variant="destructive">Delete</Button>
@@ -768,6 +777,73 @@ export default function DesignSystemPage() {
           )}
         </Section>
 
+        {/* ── Breadcrumb ─────────────────────────────────────────────────── */}
+        <Section id="breadcrumb" title="Breadcrumb" description="Navigation trail. Links use text-primary, current page uses text-muted-foreground, separator is a small ChevronRight.">
+          <div className="flex flex-col gap-4">
+            <Group label="Default">
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="#">Workspace</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="#">Catalog</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>main</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            </Group>
+
+            <Group label="Deeper path">
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="#">Data Engineering</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="#">Pipelines</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="#">prod-etl</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>Settings</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            </Group>
+
+            <Group label="With ellipsis">
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="#">Workspace</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbEllipsis />
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="#">prod-etl</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>Settings</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            </Group>
+          </div>
+        </Section>
+
         {/* ── AI Components ──────────────────────────────────────────────── */}
         <Section id="ai" title="AI Components" description="Databricks AI gradient: #4299E0 → #CA42E0 → #FF5F46 at 135°">
           <div className="flex flex-col gap-6">
@@ -812,6 +888,92 @@ export default function DesignSystemPage() {
                   className="inline-flex h-2 w-2 rounded-full bg-ai-gradient"
                 />
                 <span className="text-muted-foreground">AI-generated content</span>
+              </div>
+            </Group>
+          </div>
+        </Section>
+
+        <Separator className="my-8" />
+
+        {/* ── Shell ──────────────────────────────────────── */}
+        <Section id="shell" title="Shell" description="App-level layout components: TopBar and Sidebar.">
+          <div className="flex flex-col gap-8">
+
+            <Group label="TopBar">
+              <div className="overflow-hidden rounded-md border border-border">
+                <TopBar sidebarOpen={true} workspace="Production" userInitial="N" />
+              </div>
+              <div className="overflow-hidden rounded-md border border-border mt-2">
+                <TopBar sidebarOpen={false} workspace="Production" userInitial="N" />
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">Top: sidebar open · Bottom: sidebar collapsed</p>
+            </Group>
+
+            <Group label="Sidebar — expanded">
+              <div className="overflow-hidden rounded-md border border-border" style={{ height: 480 }}>
+                <Sidebar open={true} activeItem="workspace" />
+              </div>
+            </Group>
+
+
+            <Group label="PageHeader — minimal">
+              <div className="rounded-md border border-border p-6">
+                <PageHeader title="Page title" />
+              </div>
+            </Group>
+
+            <Group label="PageHeader — with breadcrumb + actions">
+              <div className="rounded-md border border-border p-6">
+                <PageHeader
+                  breadcrumbs={
+                    <Breadcrumb>
+                      <BreadcrumbList>
+                        <BreadcrumbItem>
+                          <BreadcrumbLink href="#">Workspace</BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
+                          <BreadcrumbPage>Catalog</BreadcrumbPage>
+                        </BreadcrumbItem>
+                      </BreadcrumbList>
+                    </Breadcrumb>
+                  }
+                  title="main"
+                  titleIcons={
+                    <Button variant="ghost" size="icon-xs" aria-label="Copy link">
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  }
+                  actions={
+                    <>
+                      <Button variant="ghost" size="icon-xs">
+                        <Settings className="h-4 w-4" />
+                      </Button>
+                      <Button variant="outline" size="sm">Share</Button>
+                      <Button size="sm">Create</Button>
+                    </>
+                  }
+                />
+              </div>
+            </Group>
+
+            <Group label="PageHeader — with description">
+              <div className="rounded-md border border-border p-6">
+                <PageHeader
+                  title="SQL Warehouses"
+                  description="Serverless compute for running SQL queries and dashboards."
+                  actions={<Button size="sm">Create warehouse</Button>}
+                />
+              </div>
+            </Group>
+
+            <Group label="Full shell">
+              <div className="text-sm text-muted-foreground">
+                Visit{" "}
+                <a href="/shell" className="text-primary underline underline-offset-2">
+                  /shell
+                </a>{" "}
+                to see the full AppShell with TopBar + Sidebar + demo content.
               </div>
             </Group>
           </div>

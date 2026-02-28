@@ -27,19 +27,16 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        // DuBois sizes: 40px default, 32px sm, 24px xs
-        default: "h-10 px-4 py-2 has-[>svg]:px-3",
-        sm: "h-8 px-4 py-1.5 has-[>svg]:px-3",
+        // DuBois sizes: 32px sm (standard), 24px xs (compact)
+        sm: "h-8 px-3 has-[>svg]:px-2.5",
         xs: "h-6 gap-1 px-2 text-xs has-[>svg]:px-1.5 [&_svg:not([class*='size-'])]:size-3",
-        lg: "h-10 px-6 has-[>svg]:px-4",
-        icon: "size-10",
         "icon-sm": "size-8",
         "icon-xs": "size-6 [&_svg:not([class*='size-'])]:size-3",
       },
     },
     defaultVariants: {
       variant: "default",
-      size: "default",
+      size: "sm",
     },
   }
 )
@@ -47,7 +44,7 @@ const buttonVariants = cva(
 function Button({
   className,
   variant = "default",
-  size = "default",
+  size = "sm",
   asChild = false,
   ...props
 }: React.ComponentProps<"button"> &

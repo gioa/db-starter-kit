@@ -13,19 +13,25 @@ export const ReaderModeIcon = forwardRef<SVGSVGElement, ReaderModeIconProps>(
   ({ size = 16, className, ariaLabel, ...props }, ref) => (
     <svg
       ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
+      viewBox="0 0 16 16"
+      fill="none"
       className={cn("shrink-0", className)}
       aria-hidden={!ariaLabel}
       aria-label={ariaLabel}
       role={ariaLabel ? "img" : undefined}
       {...props}
     >
-<path d="M13 4.5H10V6H13V4.5Z" fill="currentColor"/>
-<path d="M13 7.25H10V8.75H13V7.25Z" fill="currentColor"/>
-<path d="M13 10H10V11.5H13V10Z" fill="currentColor"/>
-<path fillRule="evenodd" clipRule="evenodd" d="M0.75 2C0.335786 2 0 2.33579 0 2.75V13.25C0 13.6642 0.335786 14 0.75 14H15.25C15.6642 14 16 13.6642 16 13.25V2.75C16 2.33579 15.6642 2 15.25 2H0.75ZM1.5 12.5V3.5H7.25V12.5H1.5ZM8.75 12.5H14.5V3.5H8.75V12.5Z" fill="currentColor"/>
-</svg>
+      <path fill="currentColor" d="M13 4.5h-3V6h3zM13 7.25h-3v1.5h3zM13 10h-3v1.5h3z" />
+            <path
+              fill="currentColor"
+              fillRule="evenodd"
+              d="M.75 2a.75.75 0 0 0-.75.75v10.5c0 .414.336.75.75.75h14.5a.75.75 0 0 0 .75-.75V2.75a.75.75 0 0 0-.75-.75zm.75 10.5v-9h5.75v9zm7.25 0h5.75v-9H8.75z"
+              clipRule="evenodd"
+            />
+    </svg>
   )
 );
 ReaderModeIcon.displayName = "ReaderModeIcon";

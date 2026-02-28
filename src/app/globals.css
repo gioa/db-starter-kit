@@ -188,6 +188,14 @@
   --warning: #be501e;          /* yellow600 */
   --success: #277c43;          /* green600 */
 
+  /* Alert / validation tinted borders and backgrounds */
+  --border-danger:  #fbd0d8;
+  --border-warning: #f8d4a5;
+  --border-success: #a3d9b6;
+  --background-danger:  #fff5f7;
+  --background-warning: #fff9eb;
+  --background-success: #f0faf4;
+
   /* Chart colors */
   --chart-1: #2272b4;
   --chart-2: #277c43;
@@ -238,6 +246,14 @@
 
   --warning: #dc6222;
   --success: #3ca45e;
+
+  /* Alert / validation tinted borders and backgrounds */
+  --border-danger:  rgba(232, 58, 95, 0.3);
+  --border-warning: rgba(220, 98, 34, 0.3);
+  --border-success: rgba(60, 164, 94, 0.3);
+  --background-danger:  rgba(232, 58, 95, 0.08);
+  --background-warning: rgba(220, 98, 34, 0.08);
+  --background-success: rgba(60, 164, 94, 0.08);
 
   --chart-1: #2e86c1;
   --chart-2: #3ca45e;

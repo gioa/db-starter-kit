@@ -13,16 +13,24 @@ export const SortHorizontalDescendingIcon = forwardRef<SVGSVGElement, SortHorizo
   ({ size = 16, className, ariaLabel, ...props }, ref) => (
     <svg
       ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
+      viewBox="0 0 16 16"
+      fill="none"
       className={cn("shrink-0", className)}
       aria-hidden={!ariaLabel}
       aria-label={ariaLabel}
       role={ariaLabel ? "img" : undefined}
       {...props}
     >
-<path fillRule="evenodd" clipRule="evenodd" d="M3.5 15L3.5 5L2 5L2 15L3.5 15ZM11.5 15L11.5 11L10 11L10 15L11.5 15ZM7.5 8L7.5 15L6 15L6 8L7.5 8ZM14.5303 5.03033L15.0607 4.5L14.5303 3.96967L11.0303 0.469669L9.96967 1.53033L12.1893 3.75L6 3.75L6 5.25L12.1893 5.25L9.96967 7.46967L11.0303 8.53033L14.5303 5.03033Z" fill="currentColor"/>
-</svg>
+      <path
+              fill="currentColor"
+              fillRule="evenodd"
+              d="M3.5 15V5H2v10zm8 0v-4H10v4zm-4-7v7H6V8zm7.03-2.97.53-.53-.53-.53-3.5-3.5-1.06 1.06 2.22 2.22H6v1.5h6.19L9.97 7.47l1.06 1.06z"
+              clipRule="evenodd"
+            />
+    </svg>
   )
 );
 SortHorizontalDescendingIcon.displayName = "SortHorizontalDescendingIcon";

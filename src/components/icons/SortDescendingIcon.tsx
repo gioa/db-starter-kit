@@ -13,16 +13,24 @@ export const SortDescendingIcon = forwardRef<SVGSVGElement, SortDescendingIconPr
   ({ size = 16, className, ariaLabel, ...props }, ref) => (
     <svg
       ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
+      viewBox="0 0 16 16"
+      fill="none"
       className={cn("shrink-0", className)}
       aria-hidden={!ariaLabel}
       aria-label={ariaLabel}
       role={ariaLabel ? "img" : undefined}
       {...props}
     >
-<path fillRule="evenodd" clipRule="evenodd" d="M1 3.5H11V2H1V3.5ZM1 11.5H5V10H1V11.5ZM8 7.5H1V6H8V7.5ZM11.5 15.0607L15.5303 11.0303L14.4697 9.96967L12.25 12.1893V6H10.75V12.1893L8.53033 9.96967L7.46967 11.0303L11.5 15.0607Z" fill="currentColor"/>
-</svg>
+      <path
+              fill="currentColor"
+              fillRule="evenodd"
+              d="M1 3.5h10V2H1zm0 8h4V10H1zm7-4H1V6h7zm3.5 7.56 4.03-4.03-1.06-1.06-2.22 2.22V6h-1.5v6.19L8.53 9.97l-1.06 1.06z"
+              clipRule="evenodd"
+            />
+    </svg>
   )
 );
 SortDescendingIcon.displayName = "SortDescendingIcon";

@@ -13,16 +13,24 @@ export const FolderNodeIcon = forwardRef<SVGSVGElement, FolderNodeIconProps>(
   ({ size = 16, className, ariaLabel, ...props }, ref) => (
     <svg
       ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
+      viewBox="0 0 16 16"
+      fill="none"
       className={cn("shrink-0", className)}
       aria-hidden={!ariaLabel}
       aria-label={ariaLabel}
       role={ariaLabel ? "img" : undefined}
       {...props}
     >
-<path fillRule="evenodd" clipRule="evenodd" d="M5.2168 1C5.93001 1 6.61612 1.27676 7.12891 1.77246L7.70898 2.33301H13.25L13.3271 2.33691C13.705 2.37551 13.9998 2.69498 14 3.08301V9.75C14 10.1642 13.6642 10.5 13.25 10.5H8.75V11.6309C9.38859 11.8569 9.89313 12.3614 10.1191 13H14V14.5H10.1191C9.81001 15.3734 8.97933 16 8 16C7.02067 16 6.18999 15.3734 5.88086 14.5H2V13H5.88086C6.10687 12.3614 6.61141 11.8569 7.25 11.6309V10.5H2.75C2.33579 10.5 2 10.1642 2 9.75V1.75L2.00391 1.67285C2.04253 1.29488 2.36183 1 2.75 1H5.2168ZM8 13C7.58579 13 7.25 13.3358 7.25 13.75C7.25 14.1642 7.58579 14.5 8 14.5C8.41421 14.5 8.75 14.1642 8.75 13.75C8.75 13.3358 8.41421 13 8 13ZM3.5 9H12.5V3.83301H7.40527C7.25947 3.83301 7.11771 3.79109 6.99707 3.71289L6.88379 3.62305L6.08594 2.85156C5.85285 2.62625 5.54098 2.5 5.2168 2.5H3.5V9Z" fill="currentColor"/>
-</svg>
+      <path
+              fill="currentColor"
+              fillRule="evenodd"
+              d="M5.217 1c.713 0 1.4.277 1.912.772l.58.561h5.541l.077.004a.75.75 0 0 1 .673.746V9.75a.75.75 0 0 1-.75.75h-4.5v1.13A2.25 2.25 0 0 1 10.12 13H14v1.5h-3.88a2.248 2.248 0 0 1-4.24 0H2V13h3.88a2.25 2.25 0 0 1 1.37-1.37V10.5h-4.5A.75.75 0 0 1 2 9.75v-8l.004-.077A.75.75 0 0 1 2.75 1zM8 13a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5M3.5 9h9V3.833H7.405a.75.75 0 0 1-.408-.12l-.113-.09-.798-.771a1.25 1.25 0 0 0-.87-.352H3.5z"
+              clipRule="evenodd"
+            />
+    </svg>
   )
 );
 FolderNodeIcon.displayName = "FolderNodeIcon";

@@ -13,16 +13,24 @@ export const SortHorizontalAscendingIcon = forwardRef<SVGSVGElement, SortHorizon
   ({ size = 16, className, ariaLabel, ...props }, ref) => (
     <svg
       ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
+      viewBox="0 0 16 16"
+      fill="none"
       className={cn("shrink-0", className)}
       aria-hidden={!ariaLabel}
       aria-label={ariaLabel}
       role={ariaLabel ? "img" : undefined}
       {...props}
     >
-<path fillRule="evenodd" clipRule="evenodd" d="M1.46966 5.03033L0.939331 4.5L1.46966 3.96967L4.96966 0.469669L6.03032 1.53033L3.81065 3.75L9.99999 3.75L9.99999 5.25L3.81065 5.25L6.03032 7.46967L4.96966 8.53033L1.46966 5.03033ZM4.49999 15L4.49999 11L5.99999 11L5.99999 15L4.49999 15ZM12.5 15L12.5 5L14 5L14 15L12.5 15ZM8.49999 8L8.49999 15L9.99999 15L9.99999 8L8.49999 8Z" fill="currentColor"/>
-</svg>
+      <path
+              fill="currentColor"
+              fillRule="evenodd"
+              d="M1.47 5.03.94 4.5l.53-.53 3.5-3.5 1.06 1.06-2.22 2.22H10v1.5H3.81l2.22 2.22-1.06 1.06zM4.5 15v-4H6v4zm8 0V5H14v10zm-4-7v7H10V8z"
+              clipRule="evenodd"
+            />
+    </svg>
   )
 );
 SortHorizontalAscendingIcon.displayName = "SortHorizontalAscendingIcon";

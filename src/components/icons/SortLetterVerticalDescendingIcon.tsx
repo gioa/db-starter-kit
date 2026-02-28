@@ -13,25 +13,31 @@ export const SortLetterVerticalDescendingIcon = forwardRef<SVGSVGElement, SortLe
   ({ size = 16, className, ariaLabel, ...props }, ref) => (
     <svg
       ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
+      viewBox="0 0 16 16"
+      fill="none"
       className={cn("shrink-0", className)}
       aria-hidden={!ariaLabel}
       aria-label={ariaLabel}
       role={ariaLabel ? "img" : undefined}
       {...props}
     >
-<g clipPath="url(#clip0_11827_34694)">
-<path fillRule="evenodd" clipRule="evenodd" d="M4.30748 4.74207e-07C4.61451 0.000346357 4.89032 0.187788 5.00366 0.473128L7.59628 7H5.98227L5.74394 6.4H2.85535L2.61545 7H1L3.61024 0.471562C3.72422 0.186478 4.00045 -0.000343507 4.30748 4.74207e-07ZM3.45509 4.9H5.14811L4.30436 2.77589L3.45509 4.9Z" fill="currentColor"/>
-<path d="M4.77717 9.5H1.5V8H6.25C6.53209 8 6.79033 8.15829 6.91834 8.40967C7.04634 8.66105 7.02247 8.96299 6.85655 9.19113L3.72283 13.5H7V15H2.25C1.96791 15 1.70967 14.8417 1.58166 14.5903C1.45366 14.339 1.47753 14.037 1.64345 13.8089L4.77717 9.5Z" fill="currentColor"/>
-<path d="M12 15.0607L7.96967 11.0303L9.03033 9.96967L11.25 12.1893L11.25 6H12.75L12.75 12.1893L14.9697 9.96967L16.0303 11.0303L12 15.0607Z" fill="currentColor"/>
-</g>
-<defs>
-<clipPath id="clip0_11827_34694">
-<rect fill="white"/>
-</clipPath>
-</defs>
-</svg>
+      <g fill="currentColor" clipPath="url(#SortLetterVerticalDescendingIcon_svg__a)">
+              <path
+                fillRule="evenodd"
+                d="M4.307 0a.75.75 0 0 1 .697.473L7.596 7H5.982l-.238-.6H2.855l-.24.6H1L3.61.472A.75.75 0 0 1 4.307 0m-.852 4.9h1.693l-.844-2.124z"
+                clipRule="evenodd"
+              />
+              <path d="M4.777 9.5H1.5V8h4.75a.75.75 0 0 1 .607 1.191L3.723 13.5H7V15H2.25a.75.75 0 0 1-.607-1.191zM12 15.06l-4.03-4.03 1.06-1.06 2.22 2.22V6h1.5v6.19l2.22-2.22 1.06 1.06z" />
+            </g>
+            <defs>
+              <clipPath>
+                <path fill="#fff" d="M0 0h16v16H0z" />
+              </clipPath>
+            </defs>
+    </svg>
   )
 );
 SortLetterVerticalDescendingIcon.displayName = "SortLetterVerticalDescendingIcon";

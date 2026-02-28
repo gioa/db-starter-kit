@@ -19,6 +19,7 @@ const navItems = [
   { id: "dialogs",     label: "Dialogs & Sheets" },
   { id: "icons",       label: "Icons" },
   { id: "ai",          label: "AI Components" },
+  { id: "shell",       label: "Shell" },
 ];
 
 export default function DesignSystemLayout({

@@ -13,18 +13,24 @@ export const SortLetterUnsortedIcon = forwardRef<SVGSVGElement, SortLetterUnsort
   ({ size = 16, className, ariaLabel, ...props }, ref) => (
     <svg
       ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
+      viewBox="0 0 16 16"
+      fill="none"
       className={cn("shrink-0", className)}
       aria-hidden={!ariaLabel}
       aria-label={ariaLabel}
       role={ariaLabel ? "img" : undefined}
       {...props}
     >
-<path fillRule="evenodd" clipRule="evenodd" d="M11.5001 0.939331L10.9697 1.46966L7.46973 4.96966L8.53039 6.03032L10.7501 3.81065V5.99999V9.99999L10.7501 12.1893L8.53039 9.96966L7.46973 11.0303L10.9697 14.5303L11.5001 15.0607L12.0304 14.5303L15.5304 11.0303L14.4697 9.96966L12.2501 12.1893L12.2501 9.99999V5.99999V3.81065L14.4697 6.03032L15.5304 4.96966L12.0304 1.46966L11.5001 0.939331Z" fill="currentColor"/>
-<path fillRule="evenodd" clipRule="evenodd" d="M4 1C4.27369 1 4.52007 1.17271 4.62301 1.43673L7 7.53333H5.54868L5.18479 6.6H2.81521L2.45131 7.53333H1L3.37699 1.43673C3.47993 1.17271 3.72631 1 4 1ZM3.36105 5.2H4.63895L4 3.5612L3.36105 5.2Z" fill="currentColor"/>
-<path fillRule="evenodd" clipRule="evenodd" d="M4.59827 9.86667H1.31051V8.46667H6.01715C6.27695 8.46667 6.51351 8.62249 6.62476 8.86691C6.73602 9.11132 6.70206 9.4006 6.53755 9.60993L3.40177 13.6H6.68953V15H1.98288C1.72308 15 1.48653 14.8442 1.37528 14.5998C1.26402 14.3553 1.29798 14.0661 1.46249 13.8567L4.59827 9.86667Z" fill="currentColor"/>
-</svg>
+      <path
+              fill="currentColor"
+              fillRule="evenodd"
+              d="m11.5.94-.53.53-3.5 3.5 1.06 1.06 2.22-2.22v8.379999999999999L8.53 9.97l-1.06 1.06 3.5 3.5.53.53.53-.53 3.5-3.5-1.06-1.06-2.22 2.22V3.81l2.22 2.22 1.06-1.06-3.5-3.5zM4 1c.274 0 .52.173.623.437L7 7.533H5.549L5.185 6.6h-2.37l-.364.933H1l2.377-6.096A.67.67 0 0 1 4 1m-.639 4.2H4.64L4 3.561zM4.598 9.867H1.311v-1.4h4.706a.67.67 0 0 1 .608.4.72.72 0 0 1-.087.743L3.402 13.6H6.69V15H1.983a.67.67 0 0 1-.608-.4.72.72 0 0 1 .087-.743z"
+              clipRule="evenodd"
+            />
+    </svg>
   )
 );
 SortLetterUnsortedIcon.displayName = "SortLetterUnsortedIcon";

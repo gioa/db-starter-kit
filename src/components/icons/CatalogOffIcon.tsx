@@ -13,24 +13,31 @@ export const CatalogOffIcon = forwardRef<SVGSVGElement, CatalogOffIconProps>(
   ({ size = 16, className, ariaLabel, ...props }, ref) => (
     <svg
       ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
+      viewBox="0 0 16 16"
+      fill="none"
       className={cn("shrink-0", className)}
       aria-hidden={!ariaLabel}
       aria-label={ariaLabel}
       role={ariaLabel ? "img" : undefined}
       {...props}
     >
-<g clipPath="url(#clip0_16656_29063)">
-<path d="M14.0003 11.9393L12.5003 10.4393V5H7.06096L5.56096 3.5H12.5003V1.5H4.5003C4.23959 1.5 4.00218 1.59977 3.82417 1.76321L2.76312 0.702162C3.21291 0.267455 3.82537 0 4.5003 0H13.2503C13.6645 0 14.0003 0.335786 14.0003 0.75V11.9393Z" fill="currentColor"/>
-<path fillRule="evenodd" clipRule="evenodd" d="M2.0003 4.06066L0.469971 2.53033L1.53063 1.46967L15.0306 14.9697L13.97 16.0303L13.9396 16H4.7503C3.23152 16 2.0003 14.7688 2.0003 13.25V4.06066ZM3.5003 5.56066V13.25C3.5003 13.9404 4.05995 14.5 4.7503 14.5H12.4396L3.5003 5.56066Z" fill="currentColor"/>
-</g>
-<defs>
-<clipPath id="clip0_16656_29063">
-<rect fill="white"/>
-</clipPath>
-</defs>
-</svg>
+      <g fill="currentColor" clipPath="url(#CatalogOffIcon_svg__a)">
+              <path d="m14 11.94-1.5-1.5V5H7.061l-1.5-1.5h6.94v-2h-8c-.261 0-.499.1-.677.263L2.764.703A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75z" />
+              <path
+                fillRule="evenodd"
+                d="M2 4.06.47 2.53l1.06-1.06 13.5 13.5-1.06 1.06-.03-.03H4.75A2.75 2.75 0 0 1 2 13.25zm1.5 1.5v7.69c0 .69.56 1.25 1.25 1.25h7.69z"
+                clipRule="evenodd"
+              />
+            </g>
+            <defs>
+              <clipPath>
+                <path fill="#fff" d="M0 0h16v16H0z" />
+              </clipPath>
+            </defs>
+    </svg>
   )
 );
 CatalogOffIcon.displayName = "CatalogOffIcon";

@@ -13,18 +13,19 @@ export const BarsAscendingHorizontalIcon = forwardRef<SVGSVGElement, BarsAscendi
   ({ size = 16, className, ariaLabel, ...props }, ref) => (
     <svg
       ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
+      viewBox="0 0 16 16"
+      fill="none"
       className={cn("shrink-0", className)}
       aria-hidden={!ariaLabel}
       aria-label={ariaLabel}
       role={ariaLabel ? "img" : undefined}
       {...props}
     >
-<path d="M3.25 9L3.25 15H4.75L4.75 9H3.25Z" fill="currentColor"/>
-<path d="M11.25 1L11.25 15H12.75V1L11.25 1Z" fill="currentColor"/>
-<path d="M8.75 15L8.75 5L7.25 5L7.25 15H8.75Z" fill="currentColor"/>
-</svg>
+      <path fill="currentColor" d="M3.25 9v6h1.5V9zM11.25 1v14h1.5V1zM8.75 15V5h-1.5v10z" />
+    </svg>
   )
 );
 BarsAscendingHorizontalIcon.displayName = "BarsAscendingHorizontalIcon";

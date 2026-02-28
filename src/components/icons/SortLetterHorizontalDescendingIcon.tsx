@@ -13,25 +13,32 @@ export const SortLetterHorizontalDescendingIcon = forwardRef<SVGSVGElement, Sort
   ({ size = 16, className, ariaLabel, ...props }, ref) => (
     <svg
       ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
+      viewBox="0 0 16 16"
+      fill="none"
       className={cn("shrink-0", className)}
       aria-hidden={!ariaLabel}
       aria-label={ariaLabel}
       role={ariaLabel ? "img" : undefined}
       {...props}
     >
-<g clipPath="url(#clip0_11827_34681)">
-<path d="M0.939331 4.00006L4.96966 -0.0302734L6.03032 1.03039L3.81065 3.25006L9.99999 3.25006V4.75006L3.81065 4.75006L6.03032 6.96973L4.96966 8.03039L0.939331 4.00006Z" fill="currentColor"/>
-<path fillRule="evenodd" clipRule="evenodd" d="M4.30747 9.00005C4.6145 9.0004 4.89031 9.18784 5.00365 9.47318L7.59627 16H5.98226L5.74393 15.4H2.85534L2.61544 16H0.999991L3.61023 9.47161C3.72421 9.18653 4.00045 8.99971 4.30747 9.00005ZM3.45508 13.9H5.1481L4.30435 11.7759L3.45508 13.9Z" fill="currentColor"/>
-<path d="M11.7772 10.5H8.49999V9.00005H13.25C13.5321 9.00005 13.7903 9.15834 13.9183 9.40972C14.0463 9.66109 14.0225 9.96304 13.8565 10.1912L10.7228 14.5H14V16H9.24999C8.9679 16 8.70966 15.8418 8.58166 15.5904C8.45365 15.339 8.47752 15.0371 8.64344 14.8089L11.7772 10.5Z" fill="currentColor"/>
-</g>
-<defs>
-<clipPath id="clip0_11827_34681">
-<rect fill="white"/>
-</clipPath>
-</defs>
-</svg>
+      <g fill="currentColor" clipPath="url(#SortLetterHorizontalDescendingIcon_svg__a)">
+              <path d="M.94 4 4.97-.03l1.06 1.06-2.22 2.22H10v1.5H3.81l2.22 2.22-1.06 1.06z" />
+              <path
+                fillRule="evenodd"
+                d="M4.307 9a.75.75 0 0 1 .697.473L7.596 16H5.982l-.238-.6H2.855l-.24.6H1l2.61-6.528A.75.75 0 0 1 4.307 9m-.852 4.9h1.693l-.844-2.124z"
+                clipRule="evenodd"
+              />
+              <path d="M11.777 10.5H8.5V9h4.75a.75.75 0 0 1 .607 1.191L10.723 14.5H14V16H9.25a.75.75 0 0 1-.607-1.191z" />
+            </g>
+            <defs>
+              <clipPath>
+                <path fill="#fff" d="M0 0h16v16H0z" />
+              </clipPath>
+            </defs>
+    </svg>
   )
 );
 SortLetterHorizontalDescendingIcon.displayName = "SortLetterHorizontalDescendingIcon";
