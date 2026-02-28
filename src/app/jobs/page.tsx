@@ -33,18 +33,18 @@ type Job = {
 // ─── Sample data ──────────────────────────────────────────────────────────────
 
 const JOBS: Job[] = [
-  { id: "1070413125428882", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Kemalcan Jimmerson",    trigger: "Scheduled",          runs: ["success","success","success","success","success"] },
-  { id: "1180156526663268", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Ashish Sharma",         trigger: "Scheduled",          runs: ["success","success","success","success","paused"]  },
-  { id: "2205187525231874", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Thomas Russell",        trigger: "Scheduled",          runs: ["success","success","success","success","success"] },
-  { id: "2205187525456296", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Thomas Alcorn",         trigger: "Paused · Scheduled", runs: ["paused","paused","paused","success","paused"]  },
-  { id: "2205187529774183", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "xiang.shen@databri...", trigger: "Scheduled",          runs: ["success","success","failed","success","success"] },
-  { id: "2205187529788508", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "xiang.shen@databri...", trigger: "Scheduled",          runs: ["success","success","success","success","success"] },
-  { id: "2357704768041035", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Ashish Sharma",         trigger: "Scheduled",          runs: ["success","success","success","success","success"] },
-  { id: "2357704768041078", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Ashish Sharma",         trigger: "Scheduled",          runs: ["success","success","success","success","success"] },
-  { id: "2357704769666064", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Ashish Sharma",         trigger: "Scheduled",          runs: ["success","success","success","success","success"] },
-  { id: "2357704772885819", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Paulo Borges",          trigger: "Scheduled",          runs: ["success","success","success","success","success"] },
-  { id: "2478800509302866", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Darming Zhao",          trigger: "Scheduled",          runs: ["success","success","success","success","success"] },
-  { id: "2986608027194381", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Ashish Sharma",         trigger: "Scheduled",          runs: ["success","success","success","success","success"] },
+  { id: "1070413125428882", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Alex Rivera",           trigger: "Scheduled",          runs: ["success","success","success","success","success"] },
+  { id: "1180156526663268", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Jordan Kim",            trigger: "Scheduled",          runs: ["success","success","success","success","paused"]  },
+  { id: "2205187525231874", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Sam Nakamura",          trigger: "Scheduled",          runs: ["success","success","success","success","success"] },
+  { id: "2205187525456296", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Morgan Ellis",          trigger: "Paused · Scheduled", runs: ["paused","paused","paused","success","paused"]  },
+  { id: "2205187529774183", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "j.chen@example...",     trigger: "Scheduled",          runs: ["success","success","failed","success","success"] },
+  { id: "2205187529788508", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "j.chen@example...",     trigger: "Scheduled",          runs: ["success","success","success","success","success"] },
+  { id: "2357704768041035", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Jordan Kim",            trigger: "Scheduled",          runs: ["success","success","success","success","success"] },
+  { id: "2357704768041078", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Jordan Kim",            trigger: "Scheduled",          runs: ["success","success","success","success","success"] },
+  { id: "2357704769666064", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Jordan Kim",            trigger: "Scheduled",          runs: ["success","success","success","success","success"] },
+  { id: "2357704772885819", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Taylor Okonkwo",        trigger: "Scheduled",          runs: ["success","success","success","success","success"] },
+  { id: "2478800509302866", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Casey Patel",           trigger: "Scheduled",          runs: ["success","success","success","success","success"] },
+  { id: "2986608027194381", name: "Trace Metrics Collector", type: "Job", tags: ["applied"], runAs: "Jordan Kim",            trigger: "Scheduled",          runs: ["success","success","success","success","success"] },
 ]
 
 const CREATE_CARDS = [

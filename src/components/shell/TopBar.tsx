@@ -11,6 +11,7 @@ import {
   SparkleIcon,
   AppIcon,
 } from "@/components/icons"
+import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { DatabricksLogo } from "./DatabricksLogo"
 
@@ -50,7 +51,7 @@ export function TopBar({
             <SidebarExpandIcon className="h-4 w-4 text-muted-foreground" />
           )}
         </Button>
-        <DatabricksLogo height={18} />
+        <Link href="/"><DatabricksLogo height={18} /></Link>
       </div>
 
       {/* Center: search */}
