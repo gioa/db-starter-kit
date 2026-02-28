@@ -121,7 +121,10 @@ export function Sidebar({
         className
       )}
     >
-      {/* New button + nav — single scrollable container */}
+      {/* New button — fixed above the scrollable nav */}
+      {open && <div className="px-2 pt-2 pb-1"><NewButton /></div>}
+
+      {/* Nav — scrollable */}
       <nav
         className={cn(
           "flex flex-1 flex-col gap-3 overflow-y-auto px-2 pb-2",
@@ -133,7 +136,6 @@ export function Sidebar({
           "[&::-webkit-scrollbar-thumb:hover]:bg-muted-foreground/40",
         )}
       >
-        {open && <NewButton />}
 
         {NAV_SECTIONS.map((section, i) => {
           const isSectionCollapsed = section.label ? !!collapsed[section.label] : false
