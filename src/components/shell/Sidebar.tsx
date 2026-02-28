@@ -28,6 +28,7 @@ import {
   AssistantIcon,
   IngestionIcon,
 } from "@/components/icons"
+import Link from "next/link"
 import { cn } from "@/lib/utils"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -38,6 +39,7 @@ type NavItem = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   icon: React.ComponentType<any>
   iconColor?: "default" | "muted" | "primary" | "ai"
+  href?: string
 }
 
 type NavSection = {
@@ -50,10 +52,10 @@ type NavSection = {
 const NAV_SECTIONS: NavSection[] = [
   {
     items: [
-      { id: "workspace",   label: "Workspace",   icon: WorkspacesIcon },
+      { id: "workspace",   label: "Workspace",   icon: WorkspacesIcon, href: "/shell" },
       { id: "recents",     label: "Recents",     icon: Clock },
       { id: "catalog",     label: "Catalog",     icon: CatalogIcon },
-      { id: "workflows",   label: "Workflows",   icon: WorkflowsIcon },
+      { id: "workflows",   label: "Workflows",   icon: WorkflowsIcon,  href: "/jobs" },
       { id: "compute",     label: "Compute",     icon: Cpu },
       { id: "marketplace", label: "Marketplace", icon: StorefrontIcon },
     ],
@@ -191,18 +193,16 @@ function NavItemButton({
   sidebarCollapsed: boolean
   onClick: () => void
 }) {
-  return (
-    <button
-      onClick={onClick}
-      title={sidebarCollapsed ? item.label : undefined}
-      className={cn(
-        "flex h-8 w-full items-center gap-2 rounded px-2 text-left text-sm transition-colors",
-        active
-          ? "bg-primary/10 text-primary font-semibold"
-          : "text-foreground hover:bg-muted-foreground/10",
-        sidebarCollapsed && "justify-center px-0"
-      )}
-    >
+  const className = cn(
+    "flex h-8 w-full items-center gap-2 rounded px-2 text-left text-sm transition-colors",
+    active
+      ? "bg-primary/10 text-primary font-semibold"
+      : "text-foreground hover:bg-muted-foreground/10",
+    sidebarCollapsed && "justify-center px-0"
+  )
+
+  const content = (
+    <>
       <span className="shrink-0">
         <DbIcon
           icon={item.icon}
@@ -211,6 +211,20 @@ function NavItemButton({
         />
       </span>
       {!sidebarCollapsed && <span className="truncate">{item.label}</span>}
+    </>
+  )
+
+  if (item.href) {
+    return (
+      <Link href={item.href} title={sidebarCollapsed ? item.label : undefined} className={className} onClick={onClick}>
+        {content}
+      </Link>
+    )
+  }
+
+  return (
+    <button onClick={onClick} title={sidebarCollapsed ? item.label : undefined} className={className}>
+      {content}
     </button>
   )
 }
