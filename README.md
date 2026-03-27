@@ -1,5 +1,7 @@
 # Databricks UI Starter Kit
 
+[![Deploy to Databricks](./public/deploy-to-databricks.svg)](#)
+
 Vibe coding Databricks UIs. Next.js + shadcn/ui pre-configured with the **DuBois design system** — so you never have to rebuild the shell, tokens, or components from scratch.
 
 ---
