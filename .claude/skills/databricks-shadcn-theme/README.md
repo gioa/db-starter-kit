@@ -104,20 +104,13 @@ Three strategies for integrating DuBois icons with shadcn/ui:
 - **Strategy B**: Extract all DuBois SVGs as standalone components
 - **Strategy C**: Hybrid — Lucide for generic + DuBois for Databricks-specific (recommended)
 
-### extract-dubois-icons.js
+### sync-icons.mjs
 
 ```bash
-# Requires @databricks/design-system in node_modules
-npm i --save-dev @databricks/design-system
-
-# Extract ~105 Databricks-specific icons (default)
-node scripts/extract-dubois-icons.js --output src/components/icons
-
-# Extract all 413 icons
-node scripts/extract-dubois-icons.js --output src/components/icons --all
-
-# Extract specific icons by name pattern
-node scripts/extract-dubois-icons.js --filter "Catalog|Notebook|Pipeline"
+# Sync all 445 DuBois icons from the local universe monorepo
+node scripts/sync-icons.mjs
+# Source: ~/universe/design-system/src/design-system/Icon/__generated/icons
+# Output: src/components/icons/
 ```
 
 ---

@@ -15,12 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        style={{
-          fontFamily:
-            '"Helvetica Neue", ui-sans-serif, system-ui, -apple-system, sans-serif',
-        }}
-      >
+      <head>
+        <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+      </head>
+      <body>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

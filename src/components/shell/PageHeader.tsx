@@ -45,11 +45,11 @@ export function PageHeader({
         {/* Left: avatar + title + inline icons + badge */}
         <div className="flex min-w-0 items-center gap-2">
           {avatar && (
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-[#137dae]">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-primary">
               {avatar}
             </div>
           )}
-          <h2 className="shrink-0 text-[22px] font-semibold leading-7 text-foreground whitespace-nowrap">
+          <h2 className="shrink-0 text-xl font-semibold leading-7 text-foreground whitespace-nowrap">
             {title}
           </h2>
           {titleIcons && (

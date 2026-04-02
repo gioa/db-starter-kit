@@ -10,39 +10,58 @@
  * ─────────────────────────────────────────────────────────────────────────── */
 @theme {
   /* DuBois Blue */
-  --color-blue-400: #4ba3d6;
-  --color-blue-500: #2e86c1;
+  --color-blue-400: #8acaff;
+  --color-blue-500: #4299e0;
   --color-blue-600: #2272b4;
   --color-blue-700: #0e538b;
   --color-blue-800: #04355d;
 
-  /* DuBois Grey (using "grey" not "gray" to avoid Tailwind conflict) */
+  /* DuBois Neutral (warm/true grey — light mode semantics) */
+  --color-neutral-050: #f7f7f7;
+  --color-neutral-100: #ebebeb;
+  --color-neutral-200: #d8d8d8;
+  --color-neutral-300: #cbcbcb;
+  --color-neutral-350: #a2a2a2;
+  --color-neutral-400: #939393;
+  --color-neutral-500: #6f6f6f;
+  --color-neutral-600: #525252;
+  --color-neutral-650: #424242;
+  --color-neutral-700: #262626;
+  --color-neutral-800: #161616;
+
+  /* DuBois Grey (blue-tinted — dark mode semantics) */
   --color-grey-050: #f6f7f9;
   --color-grey-100: #e8ecf0;
-  --color-grey-200: #d1dce5;
-  --color-grey-300: #bdcdd9;
-  --color-grey-400: #8d9fad;
+  --color-grey-200: #d1d9e1;
+  --color-grey-300: #c0cdd8;
+  --color-grey-400: #8396a5;
   --color-grey-500: #5f7281;
-  --color-grey-600: #44535f;
+  --color-grey-600: #445461;
   --color-grey-700: #1f272d;
   --color-grey-800: #11171c;
 
   /* DuBois Red */
-  --color-red-400: #f06e87;
-  --color-red-500: #e83a5f;
+  --color-red-400: #f792a6;
+  --color-red-500: #e65b77;
   --color-red-600: #c82d4c;
-  --color-red-700: #9e1d38;
+  --color-red-700: #9e102c;
 
   /* DuBois Green */
-  --color-green-400: #59c47a;
-  --color-green-500: #3ca45e;
+  --color-green-400: #8ddda8;
+  --color-green-500: #3ba65e;
   --color-green-600: #277c43;
-  --color-green-700: #1a5c30;
+  --color-green-700: #115026;
 
   /* DuBois Yellow/Amber */
-  --color-yellow-500: #dc6222;
+  --color-yellow-500: #de7921;
   --color-yellow-600: #be501e;
-  --color-yellow-700: #8f3c14;
+  --color-yellow-700: #93320b;
+
+  /* Databricks Brand */
+  --color-brand-red: #FF3621;
+
+  /* UI Conventions */
+  --color-star: #facb66; /* star/favorite — DuBois Secondary/lemon */
 
   /* DuBois Secondary Palette (for tags/badges/categorical) */
   --color-coral-100: #fdece9;
@@ -89,9 +108,11 @@
   --shadow-db-lg: 0px 2px 16px 0px rgba(0, 0, 0, 0.08);
   --shadow-db-xl: 0px 8px 40px 0px rgba(0, 0, 0, 0.13);
 
-  /* DuBois Font Size Scale (base = 13px) */
-  --text-xs: 0.6875rem;   /* 11px */
-  --text-sm: 0.75rem;     /* 12px */
+  /* DuBois Font Size Scale (rem ÷ 16px root, body is 13px) */
+  --text-hint: 0.75rem;               /* 12px — DuBois hint/helper text (apple-system/SF Pro) */
+  --text-hint--line-height: 1rem;     /* 16px */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.8125rem;   /* 13px — DuBois base */
   --text-base: 0.8125rem; /* 13px — DuBois base */
   --text-lg: 1.125rem;    /* 18px */
   --text-xl: 1.375rem;    /* 22px */
@@ -153,42 +174,42 @@
   --radius: 0.25rem; /* 4px = borderRadiusSm */
 
   /* Core surfaces */
-  --background: #ffffff;       /* backgroundPrimary */
-  --foreground: #11171c;       /* grey800 — textPrimary */
+  --background: #ffffff;
+  --foreground: #161616;
   --card: #ffffff;
-  --card-foreground: #11171c;
+  --card-foreground: #161616;
   --popover: #ffffff;
-  --popover-foreground: #11171c;
+  --popover-foreground: #161616;
 
   /* Primary action — blue600 */
   --primary: #2272b4;
   --primary-foreground: #ffffff;
 
   /* Secondary surface — grey050 */
-  --secondary: #f6f7f9;
-  --secondary-foreground: #11171c;
+  --secondary: #f7f7f7;
+  --secondary-foreground: #161616;
 
   /* Muted */
-  --muted: #f6f7f9;
-  --muted-foreground: #5f7281; /* grey500 — textSecondary */
+  --muted: #f7f7f7;
+  --muted-foreground: #6f6f6f;
 
   /* Accent */
-  --accent: #f6f7f9;
-  --accent-foreground: #11171c;
+  --accent: #f7f7f7;
+  --accent-foreground: #161616;
 
   /* Destructive — red600 */
   --destructive: #c82d4c;
 
   /* Borders & inputs — grey100 */
-  --border: #e8ecf0;
-  --input: #e8ecf0;
-  --ring: #2272b4; /* blue600 focus ring */
+  --border: #ebebeb;
+  --input: #cbcbcb;
+  --ring: #2272b4;
 
   /* Semantic additions */
-  --warning: #be501e;          /* yellow600 */
-  --success: #277c43;          /* green600 */
+  --warning: #be501e;
+  --success: #277c43;
 
-  /* Alert / validation tinted borders and backgrounds */
+  /* Alert / validation tinted borders and backgrounds — custom, no DuBois semantic tokens */
   --border-danger:  #fbd0d8;
   --border-warning: #f8d4a5;
   --border-success: #a3d9b6;
@@ -201,53 +222,68 @@
   --chart-2: #277c43;
   --chart-3: #be501e;
   --chart-4: #c82d4c;
-  --chart-5: #9b6ae8;
+  --chart-5: #9b6ae8; /* custom — no DuBois chart-5 semantic token; uses purple-500 */
 
   /* Sidebar */
-  --sidebar: #f6f7f9;
-  --sidebar-foreground: #11171c;
+  --sidebar: #f7f7f7;
+  --sidebar-foreground: #161616;
   --sidebar-primary: #2272b4;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #e8ecf0;
-  --sidebar-accent-foreground: #11171c;
-  --sidebar-border: #e8ecf0;
+  --sidebar-accent: #ebebeb;
+  --sidebar-accent-foreground: #161616;
+  --sidebar-border: #ebebeb;
   --sidebar-ring: #2272b4;
+
+  /* Interaction state tints — pre-resolved rgba so Figma can bind to a variable */
+  --action-default-bg-hover:  rgba(34, 114, 180, 0.0800);
+  --action-default-bg-press:  rgba(34, 114, 180, 0.1600);
+  --action-danger-bg-hover:   rgba(200, 45, 76, 0.0800);
+  --action-danger-bg-press:   rgba(200, 45, 76, 0.1600);
+
+  /* Table row states */
+  --table-row-hover:          rgba(82, 82, 82, 0.0400);
+  --table-row-selected:       rgba(82, 82, 82, 0.0800);
+  --table-row-selected-hover: rgba(82, 82, 82, 0.1200);
+
+  /* Overlay + skeleton */
+  --overlay:  rgba(0, 0, 0, 0.2600);
+  --skeleton: rgba(162, 162, 162, 0.1600);
 }
 
 /* ─── Dark Mode ──────────────────────────────────────────────────────────── */
 .dark {
-  --background: #11171c;       /* grey800 */
-  --foreground: #e8ecf0;       /* grey100 */
-  --card: #1a2530;
+  --background: #11171c;
+  --foreground: #e8ecf0;
+  --card: #11171c;
   --card-foreground: #e8ecf0;
-  --popover: #1a2530;
+  --popover: #11171c;
   --popover-foreground: #e8ecf0;
 
   /* Primary — blue500 (brighter for dark mode) */
-  --primary: #2e86c1;
-  --primary-foreground: #ffffff;
+  --primary: #4299e0;
+  --primary-foreground: #11171c;
 
   /* Secondary — grey700 */
   --secondary: #1f272d;
   --secondary-foreground: #e8ecf0;
 
-  --muted: #2a3a45;
-  --muted-foreground: #bdcdd9;  /* grey300 */
+  --muted: #1f272d;
+  --muted-foreground: #92a4b3;
 
-  --accent: #2a3a45;
+  --accent: #1f272d;
   --accent-foreground: #e8ecf0;
 
   /* Destructive — red500 (brighter for dark bg contrast) */
-  --destructive: #e83a5f;
+  --destructive: #e65b77;
 
-  --border: #2a3a45;            /* grey700 */
-  --input: #2a3a45;
-  --ring: #4ba3d6;              /* blue400 */
+  --border: #1f272d;
+  --input: #37444f;
+  --ring: #8acaff;
 
-  --warning: #dc6222;
-  --success: #3ca45e;
+  --warning: #de7921;
+  --success: #3ba65e;
 
-  /* Alert / validation tinted borders and backgrounds */
+  /* Alert / validation tinted borders and backgrounds — custom, no DuBois semantic tokens */
   --border-danger:  rgba(232, 58, 95, 0.3);
   --border-warning: rgba(220, 98, 34, 0.3);
   --border-success: rgba(60, 164, 94, 0.3);
@@ -255,20 +291,35 @@
   --background-warning: rgba(220, 98, 34, 0.08);
   --background-success: rgba(60, 164, 94, 0.08);
 
-  --chart-1: #2e86c1;
-  --chart-2: #3ca45e;
-  --chart-3: #dc6222;
-  --chart-4: #e83a5f;
-  --chart-5: #9b6ae8;
+  --chart-1: #4299e0;
+  --chart-2: #3ba65e;
+  --chart-3: #de7921;
+  --chart-4: #e65b77;
+  --chart-5: #9b6ae8; /* custom — no DuBois chart-5 semantic token; uses purple-500 */
 
-  --sidebar: #1a2530;
+  --sidebar: #1f272d;
   --sidebar-foreground: #e8ecf0;
-  --sidebar-primary: #2e86c1;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #2a3a45;
+  --sidebar-primary: #4299e0;
+  --sidebar-primary-foreground: #11171c;
+  --sidebar-accent: #1f272d;
   --sidebar-accent-foreground: #e8ecf0;
-  --sidebar-border: #2a3a45;
-  --sidebar-ring: #4ba3d6;
+  --sidebar-border: #1f272d;
+  --sidebar-ring: #8acaff;
+
+  /* Interaction state tints */
+  --action-default-bg-hover:  rgba(138, 202, 255, 0.0800);
+  --action-default-bg-press:  rgba(138, 202, 255, 0.1600);
+  --action-danger-bg-hover:   rgba(247, 146, 166, 0.0800);
+  --action-danger-bg-press:   rgba(247, 146, 166, 0.1600);
+
+  /* Table row states */
+  --table-row-hover:          rgba(189, 205, 219, 0.0400);
+  --table-row-selected:       rgba(189, 205, 219, 0.0800);
+  --table-row-selected-hover: rgba(189, 205, 219, 0.1200);
+
+  /* Overlay + skeleton */
+  --overlay:  rgba(0, 0, 0, 0.4500);
+  --skeleton: rgba(144, 164, 181, 0.1600);
 }
 
 /* ─── Base Styles ─────────────────────────────────────────────────────────── */
@@ -279,7 +330,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     /* DuBois base font size — set on body only so rem stays 16px for Tailwind sizing */
     font-size: 13px;
     line-height: 20px;
@@ -317,20 +368,8 @@
     border-image: linear-gradient(135deg, #4299e0 20.5%, #ca42e0 46.91%, #ff5f46 79.5%) 1;
   }
 
-  /* DuBois table row states */
-  .row-hover:hover {
-    background-color: rgba(68, 83, 95, 0.04);
-  }
-
-  .dark .row-hover:hover {
-    background-color: rgba(189, 205, 219, 0.04);
-  }
-
-  .row-selected {
-    background-color: rgba(68, 83, 95, 0.08);
-  }
-
-  .dark .row-selected {
-    background-color: rgba(189, 205, 219, 0.08);
-  }
+  /* DuBois table row states — consume CSS vars so Figma variables stay in sync */
+  .row-hover:hover     { background-color: var(--table-row-hover); }
+  .row-selected        { background-color: var(--table-row-selected); }
+  .row-selected:hover  { background-color: var(--table-row-selected-hover); }
 }

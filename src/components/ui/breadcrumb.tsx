@@ -1,5 +1,6 @@
 import * as React from "react"
-import { ChevronRight, MoreHorizontal } from "lucide-react"
+import { MoreHorizontal } from "lucide-react"
+import { ChevronRightIcon } from "@/components/icons"
 import { Slot } from "radix-ui"
 
 import { cn } from "@/lib/utils"
@@ -78,7 +79,7 @@ function BreadcrumbSeparator({
       className={cn("text-muted-foreground [&>svg]:size-3", className)}
       {...props}
     >
-      {children ?? <ChevronRight />}
+      {children ?? <ChevronRightIcon size={12} />}
     </li>
   )
 }

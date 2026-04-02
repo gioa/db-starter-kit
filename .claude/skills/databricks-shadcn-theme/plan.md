@@ -81,21 +81,19 @@ This is the Databricks Designer Starter Kit built on Next.js + shadcn/ui.
 
 Copy `references/globals.css` from the skill into `src/app/globals.css`, replacing the shadcn defaults.
 
-### 2.2 Extend Tailwind config
+### 2.2 Configure Tailwind
 
-Merge `references/tailwind-extend.js` into `tailwind.config.ts`:
+**Tailwind v4** (recommended): No `tailwind.config.ts` — all theme config goes in `globals.css` via `@theme` blocks. Copy `references/globals.css` and you're done.
+
+**Tailwind v3**: Merge `references/tailwind-extend.js` into `tailwind.config.ts`:
 
 ```ts
 import type { Config } from "tailwindcss";
 import duboisExtend from "./.claude/skills/databricks-shadcn-theme/references/tailwind-extend";
 
 const config: Config = {
-  // ... existing config
   theme: {
-    extend: {
-      ...duboisExtend,
-      // any project-specific additions
-    },
+    extend: { ...duboisExtend },
   },
 };
 export default config;
@@ -103,19 +101,16 @@ export default config;
 
 ### 2.3 Set font
 
-Install Helvetica Neue fallback handling in `src/app/layout.tsx`:
+DuBois uses the system font stack (`-apple-system` = SF Pro on macOS/iOS). Set in `body` in `globals.css` — **never on `html`** (breaks Tailwind rem scale).
 
-```tsx
-export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
-      <body style={{ fontFamily: '"Helvetica Neue", ui-sans-serif, system-ui, sans-serif' }}>
-        {children}
-      </body>
-    </html>
-  );
+```css
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
 }
 ```
+
+In Figma: use "SF Pro" — never Inter.
 
 ---
 
@@ -157,24 +152,22 @@ Using guidance from `references/component-overrides.md`, customize:
 
 ---
 
-## Phase 4: Extract DuBois Icons
+## Phase 4: Sync DuBois Icons
 
-### 4.1 Install the design system package (for icon extraction only)
+### 4.1 Sync from local universe repo
+
+No npm install needed. Run the sync script to pull all 445 icons directly from the universe monorepo:
 
 ```bash
-npm i --save-dev @databricks/design-system
+node scripts/sync-icons.mjs
+# Source: ~/universe/design-system/src/design-system/Icon/__generated/icons
+# Output: src/components/icons/
 ```
 
-### 4.2 Run the extraction script
-
+If you don't have access to the universe repo, use `@databricks/design-system` as a fallback:
 ```bash
-# Default: ~105 Databricks-specific icons
-node .claude/skills/databricks-shadcn-theme/scripts/extract-dubois-icons.js \
-  --output src/components/icons
-
-# Or extract all 413 if you want full parity
-node .claude/skills/databricks-shadcn-theme/scripts/extract-dubois-icons.js \
-  --output src/components/icons --all
+npm i --save-dev @databricks/design-system
+# Then adapt the extraction from the node_modules source
 ```
 
 ### 4.3 Add the DbIcon wrapper

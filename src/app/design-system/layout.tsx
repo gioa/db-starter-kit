@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export const metadata: Metadata = {
@@ -39,6 +40,19 @@ export default function DesignSystemLayout({
           <ThemeToggle />
         </div>
         <nav className="flex flex-col gap-0.5">
+          <Link
+            href="/design-system"
+            className="rounded px-2 py-1.5 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
+          >
+            Components
+          </Link>
+          <Link
+            href="/design-system/patterns"
+            className="rounded px-2 py-1.5 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
+          >
+            Patterns
+          </Link>
+          <div className="my-1.5 border-t border-border" />
           {navItems.map((item) => (
             <a
               key={item.id}

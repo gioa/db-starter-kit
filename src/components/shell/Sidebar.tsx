@@ -1,32 +1,31 @@
 "use client"
 
 import * as React from "react"
-import {
-  Clock,
-  Cpu,
-  Bell,
-  History,
-  Database,
-  FlaskConical,
-  TestTube2,
-  Layers,
-  Server,
-  BarChart2,
-  ChevronRight,
-} from "lucide-react"
+import { ChevronRightIcon } from "@/components/icons"
 import { DbIcon } from "@/components/ui/db-icon"
 import { NewButton } from "./NewButton"
 import {
   WorkspacesIcon,
+  ClockIcon,
   CatalogIcon,
   WorkflowsIcon,
+  CloudIcon,
   StorefrontIcon,
   QueryEditorIcon,
   QueryIcon,
-  PipelineIcon,
-  ModelsIcon,
+  BarChartIcon,
   AssistantIcon,
+  NotificationIcon,
+  HistoryIcon,
+  DatabaseIcon,
+  RunIcon,
   IngestionIcon,
+  PipelineIcon,
+  SparkleDoubleIcon,
+  BeakerIcon,
+  LayerIcon,
+  ModelsIcon,
+  PlayCircleIcon,
 } from "@/components/icons"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
@@ -53,10 +52,10 @@ const NAV_SECTIONS: NavSection[] = [
   {
     items: [
       { id: "workspace",   label: "Workspace",   icon: WorkspacesIcon, href: "/shell" },
-      { id: "recents",     label: "Recents",     icon: Clock },
+      { id: "recents",     label: "Recents",     icon: ClockIcon },
       { id: "catalog",     label: "Catalog",     icon: CatalogIcon },
       { id: "workflows",   label: "Workflows",   icon: WorkflowsIcon,  href: "/jobs" },
-      { id: "compute",     label: "Compute",     icon: Cpu },
+      { id: "compute",     label: "Compute",     icon: CloudIcon },
       { id: "marketplace", label: "Marketplace", icon: StorefrontIcon },
     ],
   },
@@ -65,17 +64,17 @@ const NAV_SECTIONS: NavSection[] = [
     items: [
       { id: "sql-editor",     label: "SQL Editor",     icon: QueryEditorIcon },
       { id: "queries",        label: "Queries",        icon: QueryIcon },
-      { id: "dashboards",     label: "Dashboards",     icon: BarChart2,  href: "/dashboards" },
+      { id: "dashboards",     label: "Dashboards",     icon: BarChartIcon,   href: "/dashboards" },
       { id: "genie",          label: "Genie",          icon: AssistantIcon },
-      { id: "alerts",         label: "Alerts",         icon: Bell },
-      { id: "query-history",  label: "Query History",  icon: History },
-      { id: "sql-warehouses", label: "SQL Warehouses", icon: Database },
+      { id: "alerts",         label: "Alerts",         icon: NotificationIcon },
+      { id: "query-history",  label: "Query History",  icon: HistoryIcon },
+      { id: "sql-warehouses", label: "SQL Warehouses", icon: DatabaseIcon },
     ],
   },
   {
     label: "Data Engineering",
     items: [
-      { id: "job-runs",       label: "Job Runs",       icon: WorkflowsIcon },
+      { id: "job-runs",       label: "Job Runs",       icon: RunIcon },
       { id: "data-ingestion", label: "Data Ingestion", icon: IngestionIcon },
       { id: "pipelines",      label: "Pipelines",      icon: PipelineIcon },
     ],
@@ -83,11 +82,11 @@ const NAV_SECTIONS: NavSection[] = [
   {
     label: "Machine Learning",
     items: [
-      { id: "playground",  label: "Playground",  icon: FlaskConical },
-      { id: "experiments", label: "Experiments", icon: TestTube2 },
-      { id: "features",    label: "Features",    icon: Layers },
+      { id: "playground",  label: "Playground",  icon: SparkleDoubleIcon },
+      { id: "experiments", label: "Experiments", icon: BeakerIcon },
+      { id: "features",    label: "Features",    icon: LayerIcon },
       { id: "models",      label: "Models",      icon: ModelsIcon },
-      { id: "serving",     label: "Serving",     icon: Server },
+      { id: "serving",     label: "Serving",     icon: PlayCircleIcon },
     ],
   },
 ]
@@ -151,9 +150,10 @@ export function Sidebar({
                   <span className="text-xs font-normal text-muted-foreground">
                     {section.label}
                   </span>
-                  <ChevronRight
+                  <ChevronRightIcon
+                    size={12}
                     className={cn(
-                      "ml-1 h-3 w-3 shrink-0 text-muted-foreground transition-all duration-150",
+                      "ml-auto shrink-0 text-muted-foreground transition-all duration-150",
                       // Collapsed: always visible, pointing right
                       // Expanded: hidden by default, visible on hover (pointing down)
                       isSectionCollapsed
@@ -196,7 +196,7 @@ function NavItemButton({
   onClick: () => void
 }) {
   const className = cn(
-    "flex h-8 w-full items-center gap-2 rounded px-2 text-left text-sm transition-colors",
+    "flex h-7 w-full items-center gap-2 rounded px-2 text-left text-sm transition-colors",
     active
       ? "bg-primary/10 text-primary font-semibold"
       : "text-foreground hover:bg-muted-foreground/10",
@@ -209,7 +209,7 @@ function NavItemButton({
         <DbIcon
           icon={item.icon}
           size={16}
-          color={active ? "primary" : item.iconColor ?? "default"}
+          color={active ? "primary" : item.iconColor ?? "muted"}
         />
       </span>
       {!sidebarCollapsed && <span className="truncate">{item.label}</span>}

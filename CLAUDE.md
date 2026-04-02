@@ -5,13 +5,54 @@ The DuBois design system rules below are **always active** — apply them to eve
 
 ---
 
+## Code Quality
+
+- After editing any TypeScript file, run `tsc --noEmit` (or the project's typecheck command) to verify no type errors were introduced. Do not commit until the check passes.
+
+## Environment
+
+- Before running `npm install` or `yarn install`, check if network access is restricted. If installs fail with registry errors, stop retrying and ask the user to run the install manually or provide proxy config.
+
+## Local Development
+
+- Before starting a dev server, check for existing processes on the target port (`lsof -i :<port>`) and kill them if needed. Always report the correct localhost URL to the user.
+
+## UI Development
+
+- Prefer established component library patterns (e.g., shadcn `Sheet` for mobile drawers, DuBois design system tokens) over custom CSS hacks. Ask the user which pattern to use if unsure.
+- **Never use raw `<button>`, `<a>`, or `<div onClick>` in page files.** Always use `Button` or a named pattern component from `@/components/ui` or `@/components/shell`.
+- Icon-only interactive elements: always `Button variant="ghost" size="icon-xs"` or `size="icon-sm"`.
+- Every new visual pattern that appears 2+ times across pages must become a named component with a matching Figma component and Code Connect mapping before it ships.
+
+## Figma Component Creation
+
+**Always** use existing design system resources — never hardcode raw values or draw placeholder shapes when a proper token/style/component exists.
+
+- **Variables (colors, spacing, radii)** — bind via `figma.variables.importVariableByKeyAsync`. Use `search_design_system` with `includeVariables: true` to discover available variables. Never pass raw hex colors or pixel numbers as fill/stroke values.
+- **Typography** — apply existing text styles via `importStyleByKeyAsync`. Never set `fontName`, `fontSize`, or `lineHeight` manually.
+- **Icons** — always import and instantiate the actual icon component (`importComponentByKeyAsync`) instead of drawing a placeholder frame or square. Find the icon key by searching the Icons page before writing any icon-related code.
+- **Primitive components** — import and instantiate existing components (`importComponentByKeyAsync` / `importComponentSetByKeyAsync`) instead of recreating shapes. Inspect existing screens first to discover what's available.
+
+Violation examples (never do these):
+- `fills = [{ type: "SOLID", color: { r: 34/255, g: 114/255, b: 180/255 } }]` → use a variable instead
+- `fontSize = 13` → apply a text style instead
+- Drawing a 14×14 frame as an icon placeholder → import the real icon component
+
+## Code Editing Principles
+
+- Make targeted edits to specific cells/sections only. Never rewrite an entire file when only a small change is requested.
+
+---
+
 ## DuBois Design System Rules
 
 ### Typography
-- Base font: `"Helvetica Neue", ui-sans-serif, system-ui, sans-serif`
+- Base font: `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif` (resolves to SF Pro on macOS/iOS). **In Figma, use "SF Pro" — never Inter.**
 - Base size: **13px** — already set on `body` in `globals.css`. Do not set `font-size` on `html`.
 - Bold weight: **`font-semibold` (600)** — never use `font-bold` (700)
 - Line height base: 20px
+- Hint/helper text: **12px / 16px** — use `text-hint` class. System font (same as body). In Figma: `body/hint` style (SF Pro Regular 12px/16px).
+- **Never hardcode font sizes, colors, or spacing** — always use Tailwind utilities (`text-hint`, `text-foreground`, `gap-2`) and CSS variables. In Figma, always bind to text styles and variable tokens.
 
 ### Sizing & Spacing
 - Spacing grid: **8px base unit** — use `gap-2` (8px), `gap-4` (16px), `gap-6` (24px), `gap-8` (32px)
@@ -50,6 +91,8 @@ These shadcn components have DuBois overrides — use them as-is:
 - **`Tooltip`** — grey-800 background (dark in light mode)
 - **`Card`** — 8px radius, subtle shadow
 - **`Breadcrumb`** — `BreadcrumbLink` uses `text-primary` · `BreadcrumbPage` uses `text-muted-foreground` · separator is ChevronRight at `size-3`
+- **`SegmentedControl`** / **`SegmentedItem`** — segmented toggle button group. `value`+`onValueChange` on root; each `SegmentedItem` takes a `value`. Active item: `bg-primary/5 border-primary text-primary font-semibold`. Import from `@/components/ui/segmented-control`.
+- **`ListItem`** — selectable panel row (32px). Props: `selected` `icon` `actions` `onClick`. Active: `bg-primary/10 text-primary`. Actions hidden until hover/selected. Import from `@/components/ui/list-item`.
 
 ### Icons
 - **Generic icons** → `lucide-react`, always `className="h-4 w-4"` (16px)

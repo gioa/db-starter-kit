@@ -27,12 +27,15 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex flex-wrap justify-center gap-2">
           <Button asChild>
             <Link href="/shell">View shell demo</Link>
           </Button>
           <Button variant="outline" asChild>
             <Link href="/design-system">Design system</Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link href="/design-system/patterns">Patterns</Link>
           </Button>
           <Button variant="outline" asChild>
             <Link href="/design-system#icons">Browse icons</Link>

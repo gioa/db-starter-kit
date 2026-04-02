@@ -4,18 +4,19 @@ import * as React from "react"
 import { AppShell } from "@/components/shell"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { ListItem } from "@/components/ui/list-item"
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table"
 import {
   DataIcon, SchemaIcon, ErdIcon, StarIcon, OverflowIcon,
   UserGroupIcon, PencilIcon, FilterIcon, ChevronRightIcon,
+  BarChartIcon, ChevronDownIcon,
 } from "@/components/icons"
 import {
   Hash, AlignJustify, Clock, Plus, X, RefreshCw, Settings2,
-  BarChart2, ChevronDown,
 } from "lucide-react"
-import { cn } from "@/lib/utils"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -102,7 +103,7 @@ function FieldTypeIcon({ type, size = 10 }: { type: FieldType; size?: number }) 
 const LEFT_NAV: { id: Panel; label: string; icon: React.ComponentType<{ size?: number; className?: string }> }[] = [
   { id: "datasets", label: "Datasets",       icon: DataIcon },
   { id: "filters",  label: "Filters",        icon: FilterIcon },
-  { id: "viz",      label: "Visualizations", icon: BarChart2 },
+  { id: "viz",      label: "Visualizations", icon: BarChartIcon },
 ]
 
 // ─── Page ──────────────────────────────────────────────────────────────────────
@@ -135,9 +136,9 @@ export default function DashboardsPage() {
         <div className="flex shrink-0 items-center justify-between border-b border-border px-4 py-3">
           <div className="flex items-center gap-2">
             <h1 className="text-sm font-semibold text-foreground">Order Analysis Dashboard</h1>
-            <button className="text-muted-foreground hover:text-yellow-400 transition-colors" aria-label="Favorite">
+            <Button variant="ghost" size="icon-xs" aria-label="Favorite" className="hover:text-star text-muted-foreground">
               <StarIcon size={14} />
-            </button>
+            </Button>
           </div>
           <div className="flex items-center gap-1.5">
             <Button variant="ghost" size="icon-xs" aria-label="More options">
@@ -146,7 +147,7 @@ export default function DashboardsPage() {
             <Button variant="outline" size="sm" className="gap-1.5">
               <span className="h-2 w-2 rounded-full bg-[var(--success)] shrink-0" />
               Serverless
-              <ChevronDown className="h-3 w-3 text-muted-foreground" />
+              <ChevronDownIcon size={12} className="text-muted-foreground" />
             </Button>
             <Button size="sm">Publish</Button>
             <Button variant="outline" size="sm" className="gap-1.5">
@@ -160,7 +161,7 @@ export default function DashboardsPage() {
         <div className="flex shrink-0 items-center border-b border-border px-2 h-9">
           {/* Data tab (active) */}
           <button className="relative flex h-full items-center gap-1.5 px-3 text-xs font-semibold text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-primary">
-            <BarChart2 className="h-3.5 w-3.5" />
+            <BarChartIcon size={14} />
             Data
           </button>
 
@@ -183,28 +184,23 @@ export default function DashboardsPage() {
             {LEFT_NAV.map((item) => {
               const isActive = activePanel === item.id
               return (
-                <button
+                <Button
                   key={item.id}
+                  variant="ghost"
+                  size="icon-sm"
                   title={item.label}
+                  aria-label={item.label}
                   onClick={() => setActivePanel(isActive ? null : item.id)}
-                  className={cn(
-                    "flex h-8 w-8 items-center justify-center rounded transition-colors",
-                    isActive
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted-foreground/10"
-                  )}
+                  className={isActive ? "bg-primary/10 text-primary hover:bg-primary/10 hover:text-primary" : "text-muted-foreground"}
                 >
                   <item.icon size={16} />
-                </button>
+                </Button>
               )
             })}
             <div className="flex-1" />
-            <button
-              title="Add panel"
-              className="flex h-8 w-8 items-center justify-center rounded text-muted-foreground hover:bg-muted-foreground/10 transition-colors"
-            >
-              <Plus className="h-4 w-4" />
-            </button>
+            <Button variant="ghost" size="icon-sm" aria-label="Add panel" title="Add panel">
+              <Plus className="h-4 w-4 text-muted-foreground" />
+            </Button>
           </div>
 
           {/* ── Datasets panel ───────────────────────────────────────── */}
@@ -214,13 +210,9 @@ export default function DashboardsPage() {
               {/* Panel header */}
               <div className="flex shrink-0 items-center justify-between border-b border-border px-3 py-2">
                 <span className="text-xs font-semibold text-foreground">Datasets</span>
-                <button
-                  onClick={() => setActivePanel(null)}
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label="Close panel"
-                >
-                  <X className="h-3.5 w-3.5" />
-                </button>
+                <Button variant="ghost" size="icon-xs" onClick={() => setActivePanel(null)} aria-label="Close panel">
+                  <X className="h-3.5 w-3.5 text-muted-foreground" />
+                </Button>
               </div>
 
               {/* Scrollable content */}
@@ -228,31 +220,17 @@ export default function DashboardsPage() {
 
                 {/* Dataset list */}
                 <div className="flex flex-col py-1">
-                  {DATASETS.map((ds) => {
-                    const isSelected = selectedDataset === ds.id
-                    return (
-                      <button
-                        key={ds.id}
-                        onClick={() => setSelectedDataset(ds.id)}
-                        className={cn(
-                          "group flex h-8 w-full items-center gap-2 px-3 text-left text-xs transition-colors",
-                          isSelected
-                            ? "bg-primary/10 text-primary"
-                            : "text-foreground hover:bg-muted-foreground/10"
-                        )}
-                      >
-                        <SchemaIcon size={14} className={cn("shrink-0", isSelected ? "text-primary" : "text-muted-foreground")} />
-                        <span className="flex-1 truncate">{ds.name}</span>
-                        <OverflowIcon
-                          size={12}
-                          className={cn(
-                            "shrink-0 transition-opacity",
-                            isSelected ? "opacity-100 text-primary" : "opacity-0 group-hover:opacity-100 text-muted-foreground"
-                          )}
-                        />
-                      </button>
-                    )
-                  })}
+                  {DATASETS.map((ds) => (
+                    <ListItem
+                      key={ds.id}
+                      selected={selectedDataset === ds.id}
+                      icon={<SchemaIcon size={14} />}
+                      actions={<OverflowIcon size={12} className="text-muted-foreground" />}
+                      onClick={() => setSelectedDataset(ds.id)}
+                    >
+                      {ds.name}
+                    </ListItem>
+                  ))}
                 </div>
 
                 {/* New Dataset button */}
@@ -270,7 +248,7 @@ export default function DashboardsPage() {
 
                   {/* SOURCE section */}
                   <div className="px-3 py-1.5">
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Source</span>
+                    <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Source</span>
                   </div>
 
                   {/* Source table row */}
@@ -279,59 +257,50 @@ export default function DashboardsPage() {
                       <ErdIcon size={14} className="shrink-0 text-muted-foreground" />
                       <span className="flex-1 text-xs font-semibold text-foreground">orders</span>
                       <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button className="text-muted-foreground hover:text-foreground">
-                          <PencilIcon size={12} />
-                        </button>
-                        <button className="text-muted-foreground hover:text-foreground">
-                          <FilterIcon size={12} />
-                        </button>
+                        <Button variant="ghost" size="icon-xs" aria-label="Edit source">
+                          <PencilIcon size={12} className="text-muted-foreground" />
+                        </Button>
+                        <Button variant="ghost" size="icon-xs" aria-label="Filter source">
+                          <FilterIcon size={12} className="text-muted-foreground" />
+                        </Button>
                       </div>
                     </div>
-                    <span className="ml-[22px] text-[11px] text-muted-foreground">samples.tpch</span>
+                    <span className="ml-[22px] text-xs text-muted-foreground">samples.tpch</span>
                   </div>
 
                   {/* Joins */}
-                  <button className="flex items-center gap-1.5 px-3 py-1 text-xs text-muted-foreground hover:text-foreground hover:bg-muted-foreground/10 transition-colors">
-                    <span className="ml-[22px] flex-1">3 joins</span>
-                    <ChevronRightIcon size={12} />
-                  </button>
+                  <ListItem icon={<span className="w-[14px]" />} actions={<ChevronRightIcon size={12} />} className="text-muted-foreground">
+                    3 joins
+                  </ListItem>
 
                   {/* MEASURES section */}
                   <div className="mt-2 flex items-center justify-between px-3 py-1">
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       Measures ({MEASURES.length})
                     </span>
-                    <button className="text-muted-foreground hover:text-foreground transition-colors">
-                      <Plus className="h-3 w-3" />
-                    </button>
+                    <Button variant="ghost" size="icon-xs" aria-label="Add measure">
+                      <Plus className="h-3 w-3 text-muted-foreground" />
+                    </Button>
                   </div>
                   {MEASURES.map((m) => (
-                    <button
-                      key={m}
-                      className="flex h-7 w-full items-center gap-1.5 px-3 text-left text-xs text-foreground hover:bg-muted-foreground/10 transition-colors"
-                    >
-                      <Hash size={11} className="shrink-0 text-muted-foreground" />
+                    <ListItem key={m} icon={<Hash size={11} />} className="h-7">
                       {m}
-                    </button>
+                    </ListItem>
                   ))}
 
                   {/* FIELDS section */}
                   <div className="mt-2 flex items-center justify-between px-3 py-1">
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       Fields ({FIELDS.length})
                     </span>
-                    <button className="text-muted-foreground hover:text-foreground transition-colors">
-                      <Plus className="h-3 w-3" />
-                    </button>
+                    <Button variant="ghost" size="icon-xs" aria-label="Add field">
+                      <Plus className="h-3 w-3 text-muted-foreground" />
+                    </Button>
                   </div>
                   {FIELDS.map((f) => (
-                    <button
-                      key={f.name}
-                      className="flex h-7 w-full items-center gap-1.5 px-3 text-left text-xs text-foreground hover:bg-muted-foreground/10 transition-colors"
-                    >
-                      <FieldTypeIcon type={f.type} size={11} />
+                    <ListItem key={f.name} icon={<FieldTypeIcon type={f.type} size={11} />} className="h-7">
                       {f.name}
-                    </button>
+                    </ListItem>
                   ))}
 
                 </div>
@@ -345,33 +314,20 @@ export default function DashboardsPage() {
             {/* Grid sub-tab bar + toolbar */}
             <div className="flex shrink-0 items-center justify-between border-b border-border px-3">
               {/* Sub-tabs */}
-              <div className="flex items-center">
-                {(["data", "measures", "fields"] as const).map((tab) => {
-                  const labels: Record<GridTab, string> = {
-                    data:     "order_analysis",
-                    measures: `Measures (${MEASURES.length})`,
-                    fields:   `Fields (${FIELDS.length})`,
-                  }
-                  const isActive = gridTab === tab
-                  return (
-                    <button
-                      key={tab}
-                      onClick={() => setGridTab(tab)}
-                      className={cn(
-                        "relative flex h-9 items-center gap-1.5 px-3 text-xs transition-colors",
-                        isActive
-                          ? "font-semibold text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-primary"
-                          : "text-muted-foreground hover:text-foreground"
-                      )}
-                    >
-                      {tab === "data" && (
-                        <SchemaIcon size={12} className={isActive ? "text-primary" : "text-muted-foreground"} />
-                      )}
-                      {labels[tab]}
-                    </button>
-                  )
-                })}
-              </div>
+              <Tabs value={gridTab} onValueChange={(v) => setGridTab(v as GridTab)}>
+                <TabsList variant="line" className="h-9 gap-0 rounded-none border-0 bg-transparent p-0">
+                  <TabsTrigger value="data" className="gap-1.5 text-xs">
+                    <SchemaIcon size={12} />
+                    order_analysis
+                  </TabsTrigger>
+                  <TabsTrigger value="measures" className="text-xs">
+                    Measures ({MEASURES.length})
+                  </TabsTrigger>
+                  <TabsTrigger value="fields" className="text-xs">
+                    Fields ({FIELDS.length})
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
 
               {/* Toolbar */}
               <div className="flex items-center gap-1">
@@ -399,7 +355,7 @@ export default function DashboardsPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-12 text-center text-[10px] uppercase tracking-wider">Index</TableHead>
+                      <TableHead className="w-12 text-center text-xs uppercase tracking-wider">Index</TableHead>
                       {[
                         { label: "Order Key",      type: "measure" as FieldType },
                         { label: "Customer Key",   type: "measure" as FieldType },
@@ -411,7 +367,7 @@ export default function DashboardsPage() {
                         { label: "Ship Priority",  type: "measure" as FieldType },
                         { label: "Comment",        type: "dimension" as FieldType },
                       ].map((col) => (
-                        <TableHead key={col.label} className="text-[10px] uppercase tracking-wider whitespace-nowrap">
+                        <TableHead key={col.label} className="text-xs uppercase tracking-wider whitespace-nowrap">
                           <div className="flex items-center gap-1">
                             <FieldTypeIcon type={col.type} size={10} />
                             {col.label}
@@ -446,8 +402,8 @@ export default function DashboardsPage() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="text-[10px] uppercase tracking-wider">Measure</TableHead>
-                        <TableHead className="text-[10px] uppercase tracking-wider">Expression</TableHead>
+                        <TableHead className="text-xs uppercase tracking-wider">Measure</TableHead>
+                        <TableHead className="text-xs uppercase tracking-wider">Expression</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -476,9 +432,9 @@ export default function DashboardsPage() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="text-[10px] uppercase tracking-wider">Field</TableHead>
-                        <TableHead className="text-[10px] uppercase tracking-wider">Type</TableHead>
-                        <TableHead className="text-[10px] uppercase tracking-wider">Source</TableHead>
+                        <TableHead className="text-xs uppercase tracking-wider">Field</TableHead>
+                        <TableHead className="text-xs uppercase tracking-wider">Type</TableHead>
+                        <TableHead className="text-xs uppercase tracking-wider">Source</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -491,7 +447,7 @@ export default function DashboardsPage() {
                             </div>
                           </TableCell>
                           <TableCell className="text-muted-foreground capitalize">{f.type}</TableCell>
-                          <TableCell className="font-mono text-muted-foreground text-[11px]">orders</TableCell>
+                          <TableCell className="font-mono text-muted-foreground text-xs">orders</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>

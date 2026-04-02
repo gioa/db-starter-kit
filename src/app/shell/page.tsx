@@ -23,7 +23,8 @@ import {
   Breadcrumb, BreadcrumbList, BreadcrumbItem,
   BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage,
 } from "@/components/ui/breadcrumb"
-import { Search, ChevronDown, ArrowUpDown, LayoutGrid } from "lucide-react"
+import { ArrowUpDown } from "lucide-react"
+import { SearchIcon, ChevronDownIcon, GridIcon } from "@/components/icons"
 import { cn } from "@/lib/utils"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -157,7 +158,7 @@ const TITLES: Record<string, string> = {
 }
 
 function FileIcon({ type }: { type: FileType }) {
-  if (type === "Git folder") return <FolderBranchFillIcon size={16} className="text-blue-600 shrink-0" />
+  if (type === "Git folder") return <FolderBranchFillIcon size={16} className="text-primary shrink-0" />
   if (type === "Notebook")   return <NotebookIcon         size={16} className="text-primary shrink-0" />
   return <FolderIcon size={16} className="text-primary shrink-0" />
 }
@@ -337,7 +338,7 @@ export default function WorkspacePage() {
               title={pageTitle}
               titleIcons={
                 currentId === "home" ? (
-                  <button className="text-yellow-400" aria-label="Favorite">
+                  <button className="text-star" aria-label="Favorite">
                     <StarIcon size={14} />
                   </button>
                 ) : undefined
@@ -346,7 +347,7 @@ export default function WorkspacePage() {
                 <>
                   <Button variant="outline" size="sm">Share</Button>
                   <Button size="sm" className="gap-1">
-                    Create <ChevronDown className="h-3 w-3" />
+                    Create <ChevronDownIcon size={12} />
                   </Button>
                 </>
               }
@@ -355,7 +356,7 @@ export default function WorkspacePage() {
             {/* Filter bar */}
             <div className="flex flex-wrap items-center gap-2">
               <div className="relative">
-                <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+                <SearchIcon size={14} className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   className="w-56 pl-8"
                   placeholder="Search"
@@ -364,16 +365,16 @@ export default function WorkspacePage() {
                 />
               </div>
               <Button variant="outline" size="sm" className="gap-1">
-                Type <ChevronDown className="h-3 w-3 text-muted-foreground" />
+                Type <ChevronDownIcon size={12} className="text-muted-foreground" />
               </Button>
               <Button variant="outline" size="sm" className="gap-1">
-                Owner <ChevronDown className="h-3 w-3 text-muted-foreground" />
+                Owner <ChevronDownIcon size={12} className="text-muted-foreground" />
               </Button>
               <Button variant="outline" size="sm" className="gap-1">
-                Last modified <ChevronDown className="h-3 w-3 text-muted-foreground" />
+                Last modified <ChevronDownIcon size={12} className="text-muted-foreground" />
               </Button>
               <Button variant="ghost" size="icon-sm" className="ml-auto" aria-label="Toggle columns">
-                <LayoutGrid className="h-4 w-4 text-muted-foreground" />
+                <GridIcon size={16} className="text-muted-foreground" />
               </Button>
             </div>
 
@@ -420,8 +421,8 @@ export default function WorkspacePage() {
                               className={cn(
                                 "transition-colors",
                                 starred[file.id]
-                                  ? "text-yellow-400"
-                                  : "text-transparent group-hover:text-muted-foreground/40 hover:!text-yellow-400"
+                                  ? "text-star"
+                                  : "text-transparent group-hover:text-muted-foreground/40 hover:!text-star"
                               )}
                               aria-label="Favorite"
                             >

@@ -6,16 +6,15 @@ import {
   CheckCircle2,
   Info,
   AlertTriangle,
-  Search,
   Settings,
   Plus,
   Trash2,
-  ChevronDown,
   Eye,
   EyeOff,
   Sparkles,
   X,
 } from "lucide-react";
+import { SearchIcon, ChevronDownIcon } from "@/components/icons";
 import Link from "next/link";
 import { TopBar } from "@/components/shell/TopBar";
 import { Sidebar } from "@/components/shell/Sidebar";
@@ -212,6 +211,13 @@ export default function DesignSystemPage() {
               </div>
             </Group>
 
+            <Group label="Brand & UI Conventions">
+              <div className="flex flex-wrap gap-4">
+                <Swatch color="#FF3621" label="brand-red" hex="#FF3621" cssVar="--color-brand-red" />
+                <Swatch color="#FACC15" label="star" hex="#FACC15" cssVar="--color-star" />
+              </div>
+            </Group>
+
             <Group label="Secondary Palette — For Tags & Categorical">
               <div className="flex flex-wrap gap-4">
                 <Swatch color="#E86247" label="coral"     hex="#E86247" />
@@ -313,8 +319,8 @@ export default function DesignSystemPage() {
             </DemoRow>
             <DemoRow label="With icons">
               <Button><Plus className="h-4 w-4" />New notebook</Button>
-              <Button variant="outline"><Search className="h-4 w-4" />Search</Button>
-              <Button variant="outline"><ChevronDown className="h-4 w-4" />Options</Button>
+              <Button variant="outline"><SearchIcon size={16} />Search</Button>
+              <Button variant="outline"><ChevronDownIcon size={16} />Options</Button>
             </DemoRow>
             <DemoRow label="States">
               <Button disabled>Disabled</Button>
@@ -571,7 +577,7 @@ export default function DesignSystemPage() {
                     This will permanently delete <strong>my-cluster-01</strong> and all associated data. This action cannot be undone.
                   </DialogDescription>
                 </DialogHeader>
-                <DialogFooter showCloseButton>
+                <DialogFooter>
                   <Button variant="destructive">Delete cluster</Button>
                 </DialogFooter>
               </DialogContent>
@@ -599,7 +605,7 @@ export default function DesignSystemPage() {
                     </div>
                   </div>
                 </DialogBody>
-                <DialogFooter showCloseButton>
+                <DialogFooter>
                   <Button>Create</Button>
                 </DialogFooter>
               </DialogContent>
@@ -641,7 +647,7 @@ export default function DesignSystemPage() {
                     </TabsContent>
                   </Tabs>
                 </DialogBody>
-                <DialogFooter showCloseButton>
+                <DialogFooter>
                   <Button>Save changes</Button>
                 </DialogFooter>
               </DialogContent>

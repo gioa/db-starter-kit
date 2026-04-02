@@ -64,24 +64,29 @@ After theming, these shadcn components need the most attention to match DuBois:
 
 ### Button
 DuBois buttons differ from shadcn defaults:
-- **Height**: 40px (default), 32px (sm), 24px (xs). shadcn uses `h-10`, `h-9`, `h-8`.
-- **Border radius**: 4px (`rounded-sm` in DuBois), not shadcn's default `rounded-md`
-- **Font**: 13px base, font-weight 600 for labels
+- **Height**: 32px (`h-8`, `sm`, this is the DuBois default), 24px (`h-6`, `xs`). **No 40px size in DuBois.**
+- **Border radius**: 4px (`rounded`), not shadcn's default `rounded-md`
+- **Font**: 13px base, `font-semibold` (600) for labels
 - **Variants**: Map DuBois `primary` → shadcn `default`, DuBois `default` → shadcn `outline`,
   DuBois `tertiary` → shadcn `ghost`, DuBois `danger` → shadcn `destructive`, DuBois `link` → shadcn `link`
-- **Padding**: 16px horizontal (`px-4`) at all sizes
+- **Default size**: `sm` (32px) — override `defaultVariants` in `buttonVariants`
 
 ### Input / Form Fields
-- Height: 40px, padding: 12px horizontal, 5px vertical
-- Border: `grey300` default, `blue600` on focus
+- Height: 32px (`h-8`), 4px radius
+- Border: `grey100` default, `blue600` on focus
 - Font size: 13px
-- Border radius: 4px
+- Focus ring: inset (`ring-offset-0`), no gap between ring and element
 
 ### Dialog / Modal
 - Padding: 40px
+- Corner radius: 8px (`rounded-md`) — same as cards/panels
 - No header/footer borders (DuBois removes them)
 - Header padding: `40px 40px 20px`
 - Body padding: `0 40px`
+
+### Tabs
+- Use `variant="line"` for DuBois underline style (blue bottom indicator, active tab = `font-semibold`)
+- Default (no variant) renders as pill/contained tabs
 
 ### Table
 - Row hover: `rgba(68, 83, 95, 0.04)` light / `rgba(189, 205, 219, 0.04)` dark
@@ -116,8 +121,9 @@ purple, teal, turquoise. Map these as additional badge variants.
 
 | Property      | Value                    |
 |---------------|--------------------------|
-| Font family   | `Helvetica Neue, sans-serif` |
-| Base size     | 13px                     |
+| Font family   | `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif` (= SF Pro on macOS/iOS). **In Figma: use "SF Pro" — never Inter.** |
+| Base size     | 13px — set on `body` only. **Never set `font-size` on `html`** (breaks Tailwind rem scale). |
+| Hint size     | 12px / 16px line-height — use `text-hint` class |
 | SM size       | 12px                     |
 | LG size       | 18px                     |
 | XL size       | 22px                     |
@@ -187,7 +193,7 @@ Use for AI-related features and indicators.
 
 ## Step 4: Integrate DuBois Icons
 
-DuBois ships **413 custom 16×16 SVG icons**. shadcn/ui defaults to **Lucide React** (24×24).
+DuBois ships **445 custom 16×16 SVG icons**. shadcn/ui defaults to **Lucide React** (24×24).
 
 **Read `references/icons.md` for the full integration guide.**
 
@@ -197,19 +203,13 @@ Three strategies (from simplest to most complete):
 ~100 DuBois icons have direct Lucide equivalents. Use Lucide imports with `size={16}`.
 See the mapping table in `references/icons.md`.
 
-### B. Extract DuBois SVGs (Most Complete)
-Run the extraction script to convert DuBois icons into standalone React components
-with no antd/Emotion dependencies:
+### B. Sync DuBois SVGs (Most Complete)
+Run the sync script to pull all icons from the local universe monorepo:
 
 ```bash
-# Extract only Databricks-specific icons (no Lucide equivalent) — ~90 icons
-node scripts/extract-dubois-icons.js
-
-# Extract ALL 413 icons
-node scripts/extract-dubois-icons.js --all
-
-# Extract specific icons by pattern
-node scripts/extract-dubois-icons.js --filter "Catalog|Notebook|Pipeline"
+# Sync all 445 icons from universe into src/components/icons/
+node scripts/sync-icons.mjs
+# Source: ~/universe/design-system/src/design-system/Icon/__generated/icons
 ```
 
 ### C. Hybrid (Recommended)

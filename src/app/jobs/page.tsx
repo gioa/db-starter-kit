@@ -1,20 +1,25 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import { AppShell, PageHeader } from "@/components/shell"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/select"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { SegmentedControl, SegmentedItem } from "@/components/ui/segmented-control"
+import { SplitButton } from "@/components/ui/split-button"
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table"
 import {
   IngestionIcon, PipelineIcon, WorkflowsIcon, UserIcon,
   CheckCircleFillIcon, XCircleFillIcon, PlayIcon, PencilIcon, OverflowIcon,
-  ChevronDownIcon, ChevronRightIcon, ChevronLeftIcon, SpeechBubbleIcon,
+  ChevronDownIcon, ChevronRightIcon, ChevronLeftIcon, SpeechBubbleIcon, SearchIcon,
 } from "@/components/icons"
-import { Search, ChevronDown, ArrowUpDown } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { ArrowUpDown } from "lucide-react"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -61,29 +66,6 @@ function RunDot({ status }: { status: RunResult }) {
   return <span className="inline-block h-px w-3 shrink-0 rounded bg-muted-foreground/30" />
 }
 
-function ToggleButton({
-  active, onClick, children, className,
-}: {
-  active?: boolean
-  onClick?: () => void
-  children: React.ReactNode
-  className?: string
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className={cn(
-        "h-8 px-3 text-sm border transition-colors whitespace-nowrap",
-        active
-          ? "relative z-10 border-primary bg-primary/5 text-primary font-semibold"
-          : "border-border bg-background text-foreground hover:bg-secondary",
-        className
-      )}
-    >
-      {children}
-    </button>
-  )
-}
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -92,6 +74,8 @@ export default function JobsPage() {
   const [createOpen, setCreateOpen]       = React.useState(true)
   const [typeFilter, setTypeFilter]       = React.useState("jobs")
   const [ownerFilter, setOwnerFilter]     = React.useState("accessible")
+  const [tagsFilter, setTagsFilter]       = React.useState("")
+  const [runAsFilter, setRunAsFilter]     = React.useState("")
 
   return (
     <AppShell activeItem={activeNav} onNavigate={setActiveNav}>
@@ -153,39 +137,47 @@ export default function JobsPage() {
 
               {/* Search */}
               <div className="relative">
-                <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+                <SearchIcon size={14} className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
                 <Input className="w-52 pl-8 text-xs" placeholder="Filter by name or ID s..." />
               </div>
 
               {/* Type toggle */}
-              <div className="flex -space-x-px">
-                <ToggleButton active={typeFilter === "all"}       onClick={() => setTypeFilter("all")}       className="rounded-l">All</ToggleButton>
-                <ToggleButton active={typeFilter === "jobs"}      onClick={() => setTypeFilter("jobs")}                           >Jobs</ToggleButton>
-                <ToggleButton active={typeFilter === "pipelines"} onClick={() => setTypeFilter("pipelines")} className="rounded-r">Pipelines</ToggleButton>
-              </div>
+              <SegmentedControl value={typeFilter} onValueChange={setTypeFilter}>
+                <SegmentedItem value="all">All</SegmentedItem>
+                <SegmentedItem value="jobs">Jobs</SegmentedItem>
+                <SegmentedItem value="pipelines">Pipelines</SegmentedItem>
+              </SegmentedControl>
 
               {/* Owner toggle */}
-              <div className="flex -space-x-px">
-                <ToggleButton active={ownerFilter === "all"}        onClick={() => setOwnerFilter("all")}        className="rounded-l">All</ToggleButton>
-                <ToggleButton active={ownerFilter === "owned"}      onClick={() => setOwnerFilter("owned")}                           >Owned by me</ToggleButton>
-                <ToggleButton active={ownerFilter === "accessible"} onClick={() => setOwnerFilter("accessible")}                      >Accessible by me</ToggleButton>
-                <ToggleButton active={ownerFilter === "favorites"}  onClick={() => setOwnerFilter("favorites")} className="rounded-r">Favorites</ToggleButton>
-              </div>
+              <SegmentedControl value={ownerFilter} onValueChange={setOwnerFilter}>
+                <SegmentedItem value="all">All</SegmentedItem>
+                <SegmentedItem value="owned">Owned by me</SegmentedItem>
+                <SegmentedItem value="accessible">Accessible by me</SegmentedItem>
+                <SegmentedItem value="favorites">Favorites</SegmentedItem>
+              </SegmentedControl>
 
-              <Button variant="outline" size="sm" className="gap-1">
-                Tags <ChevronDown className="h-3 w-3 text-muted-foreground" />
-              </Button>
-              <Button variant="outline" size="sm" className="gap-1">
-                Run as <ChevronDown className="h-3 w-3 text-muted-foreground" />
-              </Button>
+              <Select value={tagsFilter} onValueChange={setTagsFilter}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Tags" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="applied">applied</SelectItem>
+                  <SelectItem value="production">production</SelectItem>
+                  <SelectItem value="ml">ml</SelectItem>
+                </SelectContent>
+              </Select>
 
-              {/* Create split button */}
-              <div className="ml-auto flex items-center -space-x-px">
-                <Button size="sm" className="rounded-r-none">Create</Button>
-                <Button size="sm" className="rounded-l-none border-l border-blue-700 px-2">
-                  <ChevronDown className="h-3.5 w-3.5" />
-                </Button>
-              </div>
+              <Select value={runAsFilter} onValueChange={setRunAsFilter}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Run as" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="me">Run as me</SelectItem>
+                  <SelectItem value="service">Service principal</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <SplitButton className="ml-auto">Create</SplitButton>
             </div>
 
             {/* ── Table ──────────────────────────────────────────────── */}
@@ -212,9 +204,9 @@ export default function JobsPage() {
 
                       {/* Name */}
                       <TableCell className="max-w-72 truncate">
-                        <span className="truncate text-primary hover:underline">
+                        <Link href={`/jobs/${job.id}`} className="truncate text-primary hover:underline">
                           [{job.id}] {job.name}
-                        </span>
+                        </Link>
                       </TableCell>
 
                       {/* Type */}

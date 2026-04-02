@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { Search, ChevronDown, Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DbIcon } from "@/components/ui/db-icon"
@@ -9,6 +8,9 @@ import {
   SidebarCollapseIcon,
   SidebarExpandIcon,
   SparkleIcon,
+  SearchIcon,
+  ChevronDownIcon,
+  MenuIcon,
 } from "@/components/icons"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
@@ -49,7 +51,7 @@ export function TopBar({
           onClick={onMobileMenuToggle}
           aria-label="Open menu"
         >
-          <Menu className="h-4 w-4 text-muted-foreground" />
+          <MenuIcon size={16} className="text-muted-foreground" />
         </Button>
         {/* Desktop: collapse/expand inline sidebar */}
         <Button
@@ -71,12 +73,12 @@ export function TopBar({
       {/* Center: search (hidden on mobile) */}
       <div className="hidden md:flex flex-1 justify-center px-4">
         <div className="relative flex w-full max-w-[480px] items-center">
-          <Search className="absolute left-3 h-4 w-4 text-muted-foreground pointer-events-none" />
+          <SearchIcon size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
           <Input
             className="h-8 rounded bg-background border-border pl-9 pr-14 text-xs placeholder:text-muted-foreground"
             placeholder="Search data, notebooks, recents, and more..."
           />
-          <kbd className="pointer-events-none absolute right-3 flex items-center gap-0.5 text-[11px] text-muted-foreground">
+          <kbd className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-0.5 text-xs text-muted-foreground">
             <span>⌘</span>
             <span>P</span>
           </kbd>
@@ -90,7 +92,7 @@ export function TopBar({
       <div className="flex items-center gap-0.5">
         <Button variant="ghost" size="sm" className="hidden md:flex gap-1 px-2">
           <span className="text-xs">{workspace}</span>
-          <ChevronDown className="h-3 w-3 text-muted-foreground" />
+          <ChevronDownIcon size={12} className="text-muted-foreground" />
         </Button>
 
         <Button variant="ghost" size="icon-sm" aria-label="AI Assistant">
@@ -101,7 +103,7 @@ export function TopBar({
 
         {/* User avatar */}
         <button
-          className="ml-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-[11px] font-semibold text-primary-foreground"
+          className="ml-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground"
           aria-label="User menu"
         >
           {userInitial}

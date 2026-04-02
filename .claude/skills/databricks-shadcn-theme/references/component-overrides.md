@@ -17,9 +17,10 @@ DuBois buttons have tighter sizing, 4px radius, and different variant names than
 ### Sizes
 | DuBois Size | Height | shadcn class | Notes |
 |-------------|--------|--------------|-------|
-| Default (lg) | 40px | `h-10` | shadcn default is also h-10 ✓ |
-| Medium (md) | 32px | `h-8` | shadcn `sm` = h-9, change to h-8 |
-| Small (sm) | 24px | `h-6` | Add as new "xs" variant |
+| Default     | 32px   | `h-8` (`sm`) | DuBois default — **no 40px size** |
+| Small       | 24px   | `h-6` (`xs`) | Add as new "xs" variant |
+| Icon default| 32px   | `h-8 w-8` (`icon-sm`) | |
+| Icon small  | 24px   | `h-6 w-6` (`icon-xs`) | |
 
 ### Variants mapping
 | DuBois Variant | shadcn Variant | Changes needed |
@@ -35,28 +36,26 @@ DuBois buttons have tighter sizing, 4px radius, and different variant names than
 ```tsx
 const buttonVariants = cva(
   // Base classes — DuBois specific
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-40",
   {
     variants: {
       variant: {
-        default:     "bg-primary text-primary-foreground hover:bg-[hsl(207,82%,30%)] active:bg-[hsl(208,92%,19%)]",
+        default:     "bg-primary text-primary-foreground hover:bg-blue-700",
         outline:     "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         ghost:       "hover:bg-accent hover:text-accent-foreground",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-[hsl(348,73%,40%)]",
+        destructive: "bg-destructive text-white hover:bg-red-700",
         link:        "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-10 px-4 py-2",    // 40px height
-        sm:      "h-8 px-4 py-1.5",   // 32px height (DuBois md)
-        xs:      "h-6 px-3 py-1",     // 24px height (DuBois sm)
-        icon:    "h-10 w-10",
+        sm:        "h-8 px-3 has-[>svg]:px-2.5",   // 32px — DuBois default
+        xs:        "h-6 px-2 has-[>svg]:px-1.5",   // 24px
         "icon-sm": "h-8 w-8",
         "icon-xs": "h-6 w-6",
       },
     },
     defaultVariants: {
       variant: "default",
-      size: "default",
+      size: "sm",   // 32px is the DuBois default, not 40px
     },
   }
 );
@@ -66,8 +65,8 @@ const buttonVariants = cva(
 - `rounded` (4px) instead of `rounded-md` (6px)
 - `font-semibold` (600) instead of `font-medium` (500)
 - `disabled:opacity-40` instead of `disabled:opacity-50`
-- No `lg` size (DuBois doesn't have one)
-- `sm` height = 32px (`h-8`), not 36px (`h-9`)
+- No `default`/`lg` 40px size — DuBois default is 32px (`sm`)
+- No `ring-offset` on focus ring (inset)
 
 ---
 
@@ -76,22 +75,22 @@ const buttonVariants = cva(
 ```tsx
 // Replace className in <input>:
 className={cn(
-  "flex h-10 w-full rounded border border-input bg-background px-3 py-1.5",
-  "text-sm ring-offset-background",                           // 13px via text-sm
+  "flex h-8 w-full rounded border border-input bg-background px-3 py-1",
+  "text-sm",                                                  // 13px via text-sm
   "placeholder:text-muted-foreground",
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
   "disabled:cursor-not-allowed disabled:opacity-40",
-  "aria-invalid:border-destructive aria-invalid:ring-destructive/20",
+  "aria-[invalid=true]:border-destructive",
   className
 )}
 ```
 
 **Key diffs:**
-- `h-10` (40px height) — same as default ✓
-- `ring-offset-0` — DuBois focus ring is inset, no offset
+- `h-8` (32px height) — DuBois uses 32px, not 40px
+- No `ring-offset` — DuBois focus ring is inset, no gap
 - `border-input` → grey100/grey700 (set by globals.css)
 - `opacity-40` disabled state (not 50%)
-- Add `aria-invalid` error state styles
+- `aria-[invalid=true]` for error state border
 
 ---
 
@@ -233,61 +232,95 @@ const TableCell = React.forwardRef<...>(({ className, ...props }, ref) => (
 
 ## P1 — Alert (`components/ui/alert.tsx`)
 
-DuBois alerts use colored left borders and tinted backgrounds.
+DuBois alerts use a **full border** with a light tinted background per severity. Description text inherits the variant color — do NOT add `text-muted-foreground` to `AlertDescription`.
+
+Requires these CSS vars in `globals.css` `:root` and `.dark`:
+```css
+--border-danger: #fbd0d8;   --background-danger: #fff5f7;
+--border-warning: #f8d4a5;  --background-warning: #fff9eb;
+--border-success: #a3d9b6;  --background-success: #f0faf4;
+```
 
 ```tsx
 const alertVariants = cva(
-  "relative w-full rounded-md border-l-4 p-4 text-sm",   // left border accent, not full border
+  // Full border, tinted bg, icon grid layout, 4px radius
+  "relative w-full rounded border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
   {
     variants: {
       variant: {
-        default:     "border-l-primary bg-primary/5 text-foreground",
-        info:        "border-l-primary bg-primary/5 text-foreground",
-        destructive: "border-l-destructive bg-destructive/5 text-foreground [&>svg]:text-destructive",
-        warning:     "border-l-[hsl(var(--warning))] bg-[hsl(var(--warning))]/5 text-foreground",
-        success:     "border-l-[hsl(var(--success))] bg-[hsl(var(--success))]/5 text-foreground",
+        default:     "border-border bg-secondary text-foreground",
+        info:        "border-border bg-secondary text-foreground [&>svg]:text-primary",
+        destructive: "border-[var(--border-danger)] bg-[var(--background-danger)] text-destructive [&>svg]:text-destructive",
+        warning:     "border-[var(--border-warning)] bg-[var(--background-warning)] text-[var(--warning)] [&>svg]:text-[var(--warning)]",
+        success:     "border-[var(--border-success)] bg-[var(--background-success)] text-[var(--success)] [&>svg]:text-[var(--success)]",
       },
     },
     defaultVariants: { variant: "default" },
   }
 );
+
+// AlertDescription — no text-muted-foreground, inherits variant color
+function AlertDescription({ className, ...props }) {
+  return (
+    <div className={cn("col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed", className)} {...props} />
+  );
+}
 ```
 
 ---
 
 ## P2 — Tabs (`components/ui/tabs.tsx`)
 
-DuBois tabs have a blue bottom indicator and bolder active label.
+DuBois has two tab styles. Add a `variant` prop to support both:
+
+- **`variant="line"`** — blue bottom indicator underline style (most common in Databricks UIs)
+- **`variant="default"`** — contained/pill style with background highlight
 
 ```tsx
-// TabsList — no background, just a bottom border
-const TabsList = React.forwardRef<...>(({ className, ...props }, ref) => (
-  <TabsPrimitive.List
-    ref={ref}
-    className={cn(
-      "inline-flex items-center border-b border-border w-full",   // full-width, border-b only
-      className
-    )}
-    {...props}
-  />
-));
+// TabsList — supports variant prop
+const TabsList = React.forwardRef<..., { variant?: "default" | "line" }>(
+  ({ className, variant = "default", ...props }, ref) => (
+    <TabsPrimitive.List
+      ref={ref}
+      className={cn(
+        variant === "line"
+          ? "inline-flex items-center border-b border-border w-full h-auto gap-0 bg-transparent p-0 rounded-none"
+          : "inline-flex h-9 items-center justify-center rounded bg-muted p-1 text-muted-foreground",
+        className
+      )}
+      {...props}
+    />
+  )
+);
 
-// TabsTrigger — blue bottom indicator on active, 600 weight
-const TabsTrigger = React.forwardRef<...>(({ className, ...props }, ref) => (
-  <TabsPrimitive.Trigger
-    ref={ref}
-    className={cn(
-      "inline-flex items-center justify-center whitespace-nowrap px-4 py-2.5 text-sm font-normal",
-      "ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2",
-      "focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-40",
-      "text-muted-foreground hover:text-foreground",
-      "border-b-2 border-transparent -mb-px",                      // bottom indicator
-      "data-[state=active]:text-primary data-[state=active]:font-semibold data-[state=active]:border-primary",
-      className
-    )}
-    {...props}
-  />
-));
+// TabsTrigger — line variant uses bottom indicator
+const TabsTrigger = React.forwardRef<..., { variant?: "default" | "line" }>(
+  ({ className, variant = "default", ...props }, ref) => (
+    <TabsPrimitive.Trigger
+      ref={ref}
+      className={cn(
+        "inline-flex items-center justify-center whitespace-nowrap text-sm transition-colors",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        "disabled:pointer-events-none disabled:opacity-40",
+        variant === "line"
+          ? "px-4 py-2 font-normal text-muted-foreground hover:text-foreground border-b-2 border-transparent -mb-px data-[state=active]:text-foreground data-[state=active]:font-semibold data-[state=active]:border-primary"
+          : "rounded px-3 py-1 font-medium data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
+        className
+      )}
+      {...props}
+    />
+  )
+);
+```
+
+Usage:
+```tsx
+<Tabs>
+  <TabsList variant="line">
+    <TabsTrigger variant="line" value="tab1">Tab 1</TabsTrigger>
+    <TabsTrigger variant="line" value="tab2">Tab 2</TabsTrigger>
+  </TabsList>
+</Tabs>
 ```
 
 ---
@@ -319,46 +352,72 @@ const TooltipContent = React.forwardRef<...>(({ className, sideOffset = 4, ...pr
 
 ## P2 — Card (`components/ui/card.tsx`)
 
-DuBois cards: 8px radius (not 4px), subtle shadow.
+DuBois cards: 8px radius, `bg-background` (white, not card), 24px uniform padding (`p-6`), subtle shadow. Child sections (header/content/footer) have no extra padding — `p-6` on Card itself provides it.
 
 ```tsx
-const Card = React.forwardRef<...>(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "rounded-md border border-border bg-card text-card-foreground shadow-db-sm",
-      className
-    )}
-    {...props}
-  />
-));
+function Card({ className, ...props }) {
+  return (
+    <div
+      data-slot="card"
+      className={cn(
+        "bg-background text-foreground flex flex-col gap-4 rounded-md border p-6 shadow-[var(--shadow-db-sm)]",
+        className
+      )}
+      {...props}
+    />
+  );
+}
 
-// CardHeader — tighter padding
-const CardHeader = React.forwardRef<...>(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("flex flex-col space-y-1 p-4", className)}   // p-4 = 16px, not p-6
-    {...props}
-  />
-));
+// CardHeader — no extra padding (Card provides p-6)
+function CardHeader({ className, ...props }) {
+  return (
+    <div
+      data-slot="card-header"
+      className={cn(
+        "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6",
+        className
+      )}
+      {...props}
+    />
+  );
+}
 
-// CardContent
-const CardContent = React.forwardRef<...>(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("p-4 pt-0", className)}
-    {...props}
-  />
-));
+// CardContent — no padding
+function CardContent({ className, ...props }) {
+  return <div data-slot="card-content" className={cn("", className)} {...props} />;
+}
 
-// CardFooter
-const CardFooter = React.forwardRef<...>(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("flex items-center p-4 pt-0", className)}
-    {...props}
-  />
-));
+// CardFooter — no padding
+function CardFooter({ className, ...props }) {
+  return (
+    <div data-slot="card-footer" className={cn("flex items-center [.border-t]:pt-6", className)} {...props} />
+  );
+}
+```
+
+---
+
+## P1 — Select (`components/ui/select.tsx`)
+
+DuBois Select has the same height and radius as Input — 32px, 4px radius, no size variants.
+
+```tsx
+// SelectTrigger — match Input height
+function SelectTrigger({ className, ...props }) {
+  return (
+    <SelectPrimitive.Trigger
+      className={cn(
+        "flex h-8 w-full items-center justify-between rounded border border-input bg-background px-3 py-1 text-sm",
+        "placeholder:text-muted-foreground",
+        "focus:outline-none focus:ring-2 focus:ring-ring",
+        "disabled:cursor-not-allowed disabled:opacity-40",
+        "[&>span]:line-clamp-1",
+        className
+      )}
+      {...props}
+    />
+  );
+}
 ```
 
 ---
@@ -367,15 +426,16 @@ const CardFooter = React.forwardRef<...>(({ className, ...props }, ref) => (
 
 | Priority | Component | Done? | Key changes |
 |----------|-----------|-------|-------------|
-| P0 | `button.tsx` | ☐ | 4px radius, 40/32/24 heights, font-semibold |
-| P0 | `input.tsx` | ☐ | 40px h, 13px font, 4px radius, ring-offset-0 |
-| P0 | `badge.tsx` | ☐ | 4px radius, 9 secondary color variants |
-| P1 | `dialog.tsx` | ☐ | 40px padding, no header/footer borders |
-| P1 | `table.tsx` | ☐ | DuBois hover/selected colors, tighter cells |
-| P1 | `alert.tsx` | ☐ | Left border accent, tinted backgrounds |
-| P2 | `tabs.tsx` | ☐ | Blue bottom indicator, 600 weight active |
-| P2 | `tooltip.tsx` | ☐ | grey800 bg, 12px font |
-| P2 | `card.tsx` | ☐ | 8px radius (rounded-md), db-sm shadow |
+| P0 | `button.tsx` | ☑ | 4px radius, 32px default / 24px xs, font-semibold, no 40px size |
+| P0 | `input.tsx` | ☑ | 32px h, 13px font, 4px radius, inset focus ring |
+| P0 | `badge.tsx` | ☑ | 4px radius (`rounded`), 9 secondary color variants |
+| P1 | `dialog.tsx` | ☑ | 40px padding, 8px radius, no header/footer borders |
+| P1 | `select.tsx` | ☑ | 32px height, 4px radius, no size variants |
+| P1 | `table.tsx` | ☑ | DuBois hover/selected colors, tighter cells |
+| P1 | `alert.tsx` | ☑ | Full border + tinted bg per variant, description inherits variant color |
+| P2 | `tabs.tsx` | ☑ | `variant="line"` for blue underline style |
+| P2 | `tooltip.tsx` | ☑ | grey800 bg, 12px font |
+| P2 | `card.tsx` | ☑ | 8px radius, bg-background, p-6 uniform, db-sm shadow |
 
 ---
 
