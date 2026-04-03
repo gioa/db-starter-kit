@@ -89,6 +89,14 @@ import { PageHeader } from "@/components/shell/PageHeader"
 import { Sidebar } from "@/components/shell/Sidebar"
 import { TopBar } from "@/components/shell/TopBar"
 
+// ─── New Components ───────────────────────────────────────────────────────────
+import { Spinner } from "@/components/ui/spinner"
+import { Empty } from "@/components/ui/empty"
+import { NotebookCell } from "@/components/ui/notebook-cell"
+import { Tree } from "@/components/ui/tree"
+import { SidePanel } from "@/components/shell/SidePanel"
+import { EditorTabBar } from "@/components/shell/EditorTabBar"
+
 // ─── Additional UI ────────────────────────────────────────────────────────────
 import { Progress } from "@/components/ui/progress"
 import {
@@ -579,10 +587,14 @@ figma.connect(
   PageHeader,
   "https://www.figma.com/design/KHFOMM4oUyT9XgeeXpbzns/Untitled?node-id=446-6",
   {
-    props: {},
-    example: () => (
+    props: {
+      starred: figma.boolean("Starred"),
+    },
+    example: ({ starred }) => (
       <PageHeader
         title="Page title"
+        starred={starred}
+        onStarToggle={() => {}}
         breadcrumbs={
           <Breadcrumb>
             <BreadcrumbList>
@@ -800,6 +812,137 @@ figma.connect(
       >
         Item label
       </ListItem>
+    ),
+  }
+)
+
+// ─── Spinner ── node 1200-171 ────────────────────────────────────────────────
+figma.connect(
+  Spinner,
+  "https://www.figma.com/design/KHFOMM4oUyT9XgeeXpbzns/Untitled?node-id=1200-171",
+  {
+    props: {
+      size: figma.enum("Size", {
+        small:   "small",
+        default: "default",
+        large:   "large",
+      }),
+    },
+    example: ({ size }) => <Spinner size={size} />,
+  }
+)
+
+// ─── Empty ── node 1201-25 ───────────────────────────────────────────────────
+figma.connect(
+  Empty,
+  "https://www.figma.com/design/KHFOMM4oUyT9XgeeXpbzns/Untitled?node-id=1201-25",
+  {
+    props: {
+      hasTitle:  figma.boolean("Has Title"),
+      hasAction: figma.boolean("Has Action"),
+    },
+    example: ({ hasTitle, hasAction }) => (
+      <Empty
+        title={hasTitle ? "No results found" : undefined}
+        description="There's nothing here yet."
+        action={hasAction ? <Button size="sm">Get started</Button> : undefined}
+      />
+    ),
+  }
+)
+
+// ─── NotebookCell ── node 1203-43 ────────────────────────────────────────────
+figma.connect(
+  NotebookCell,
+  "https://www.figma.com/design/KHFOMM4oUyT9XgeeXpbzns/Untitled?node-id=1203-43",
+  {
+    props: {
+      language: figma.enum("Language", {
+        Python:   "Python",
+        SQL:      "SQL",
+        Markdown: "Markdown",
+        Scala:    "Scala",
+        R:        "R",
+      }),
+    },
+    example: ({ language }) => <NotebookCell language={language} />,
+  }
+)
+
+// ─── Tree ── node 1204-33 ────────────────────────────────────────────────────
+figma.connect(
+  Tree,
+  "https://www.figma.com/design/KHFOMM4oUyT9XgeeXpbzns/Untitled?node-id=1204-33",
+  {
+    props: {
+      variant: figma.enum("Variant", {
+        default: "default",
+        nav:     "nav",
+      }),
+    },
+    example: ({ variant }) => (
+      <Tree
+        variant={variant}
+        nodes={[
+          {
+            id: "home",
+            label: "Home",
+            defaultExpanded: true,
+            children: [
+              { id: "projects", label: "Projects" },
+              { id: "drafts",   label: "Drafts" },
+            ],
+          },
+        ]}
+        selectedId="projects"
+        onSelect={() => {}}
+      />
+    ),
+  }
+)
+
+// ─── SidePanel ── node 1205-11 ───────────────────────────────────────────────
+figma.connect(
+  SidePanel,
+  "https://www.figma.com/design/KHFOMM4oUyT9XgeeXpbzns/Untitled?node-id=1205-11",
+  {
+    props: {},
+    example: () => (
+      <SidePanel
+        path={["...", "Home", "user@example"]}
+        nodes={[
+          {
+            id: "workspace",
+            label: "Workspace",
+            defaultExpanded: true,
+            children: [
+              { id: "projects", label: "Projects" },
+            ],
+          },
+        ]}
+        selectedId="projects"
+        onSelect={() => {}}
+      />
+    ),
+  }
+)
+
+// ─── EditorTabBar ── node 1211-25 ────────────────────────────────────────────
+figma.connect(
+  EditorTabBar,
+  "https://www.figma.com/design/KHFOMM4oUyT9XgeeXpbzns/Untitled?node-id=1211-25",
+  {
+    props: {},
+    example: () => (
+      <EditorTabBar
+        tabs={[
+          { id: "notebook-1", label: "notebook.ipynb", type: "notebook" },
+          { id: "query-1",    label: "query.sql",       type: "query" },
+        ]}
+        activeTabId="notebook-1"
+        onTabClick={() => {}}
+        onTabClose={() => {}}
+      />
     ),
   }
 )
