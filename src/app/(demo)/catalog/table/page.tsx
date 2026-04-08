@@ -279,7 +279,7 @@ function LineageMiniDiagram({ nodes }: { nodes: LineageNode[] }) {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default function CatalogTablePage() {
+function CatalogTableContent() {
   const searchParams = useSearchParams()
   const tableName = searchParams.get("name") ?? TABLE.name
 
@@ -666,5 +666,13 @@ export default function CatalogTablePage() {
         </Tabs>
       </div>
     </AppShell>
+  )
+}
+
+export default function CatalogTablePage() {
+  return (
+    <React.Suspense>
+      <CatalogTableContent />
+    </React.Suspense>
   )
 }
