@@ -47,9 +47,9 @@ Rebuilds or updates a Figma frame to match what is currently in the codebase, us
 Follow the rules in `references/plugin-api-gotchas.md` for every node you create.
 
 ### Phase 5: Verify
-1. Re-read text values via `use_figma` to confirm correctness — don't rely solely on screenshots
-2. If elements look stale, apply the nudge fix (see gotchas)
-3. Take a targeted screenshot of a specific node ID to bypass full-frame cache
+1. **Always verify via API readback** — `findAll(n => n.type === "TEXT").map(t => t.characters)`. This is the only reliable source of truth.
+2. Do not use `get_screenshot` to confirm text overrides — both the screenshot tool and the canvas are lazy-rendered and will show stale content until a user interacts with the file.
+3. If readback is correct, the work is done. Tell the user to open Figma and click into the frame to trigger the canvas repaint.
 
 ## Resources
 

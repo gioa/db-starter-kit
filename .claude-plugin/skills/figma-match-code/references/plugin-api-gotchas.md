@@ -69,49 +69,25 @@ t.characters = "GitHub";
 
 ## Stale Canvas Render
 
-**Two separate caches to understand:**
-1. **Figma canvas** — what you see when you open Figma. Can be fixed programmatically.
-2. **`get_screenshot` tool** — has its own independent cache that **cannot be invalidated from the plugin API**. It will return stale images even when the canvas is correct. Do not use screenshots alone to verify changes — always confirm via API readback.
+Instance text overrides committed via the Plugin API are correct in the document model immediately, but **Figma's visual renderer is lazy** — it does not repaint until the user interacts with the file (e.g. clicking into a component). There is no programmatic way to force a full canvas repaint for instance text overrides.
 
+**Neither the canvas nor `get_screenshot` can be reliably fixed from the plugin API.**
+
+| | Behavior |
+|---|---|
+| **Document model** | Always correct immediately — source of truth |
+| **Figma canvas** | Updates when user clicks/interacts — not controllable from plugin |
+| **`get_screenshot` tool** | Independent cache — always stale after changes |
+
+**The only reliable verification is API readback:**
 ```js
-// ✅ Always verify text via readback, not screenshot
-const t = node.findOne(n => n.type === "TEXT");
-return t.characters; // authoritative
+// ✅ Authoritative — reflects actual document state
+const inst = await figma.getNodeByIdAsync("1626:435");
+return inst.findAll(n => n.type === "TEXT").map(t => t.characters);
+// → ["Owner", "Jocelyn Hickcox"] — correct even if canvas shows "Label/Value"
 ```
 
-### Fixing canvas stale render
-
-**Rule: toggle visibility AFTER appending to parent.** The toggle has no effect before the node is in the tree.
-
-```js
-// ❌ Toggle before append — does nothing
-inst.visible = false; inst.visible = true;
-parent.appendChild(inst);
-
-// ✅ Correct order: append → set content → toggle
-parent.appendChild(inst);
-const t = inst.findOne(n => n.type === "TEXT");
-await figma.loadFontAsync(t.fontName);
-t.characters = "New value";
-inst.visible = false;
-inst.visible = true;
-```
-
-**Standard repaint sequence to run at the end of every script:**
-```js
-// 1. Toggle each modified node
-for (const node of modifiedNodes) {
-  node.visible = false;
-  node.visible = true;
-}
-// 2. Toggle the parent container
-container.visible = false;
-container.visible = true;
-// 3. Scroll into view
-figma.viewport.scrollAndZoomIntoView([container]);
-```
-
-**The 0.5px position nudge does NOT reliably work** — Figma's renderer ignores sub-pixel moves. Don't use it.
+Do not use `get_screenshot` or visual inspection to verify programmatic changes. If readback is correct, the file is correct — the designer will see it properly when they open and interact with the frame.
 
 ---
 
