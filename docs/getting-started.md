@@ -121,17 +121,22 @@ git diff HEAD upstream/main -- src/components/ src/app/globals.css
 Pull in only what you want:
 
 ```bash
-# Sync design tokens (do this most often)
+# Design tokens
 git checkout upstream/main -- src/app/globals.css
 
-# Sync a specific component fix
+# A specific component fix
 git checkout upstream/main -- src/components/ui/button.tsx
 
-# Sync all shell components
+# All shell components
 git checkout upstream/main -- src/components/shell/
 
-# Sync all icons
+# All icons
 git checkout upstream/main -- src/components/icons/
+
+# Claude Code skills + reference docs (Plugin API gotchas, Figma node map, CLAUDE.md rules)
+git checkout upstream/main -- .claude-plugin/
+git checkout upstream/main -- docs/
+git checkout upstream/main -- CLAUDE.md
 ```
 
 ### What to sync regularly
@@ -142,6 +147,9 @@ git checkout upstream/main -- src/components/icons/
 | `src/components/ui/*.tsx` | Component style fixes | When a bug is fixed |
 | `src/components/shell/*.tsx` | Shell component changes | When new shell features ship |
 | `src/components/icons/` | New DuBois icons | When you need new icons |
+| `CLAUDE.md` | DuBois rules baked into Claude | When design rules change |
+| `.claude-plugin/` | figma-match-code skill + Plugin API gotchas | When Figma tooling improves |
+| `docs/` | Getting-started guide, figma-node-map | When new components or workflows are added |
 
 ### What NOT to sync
 
