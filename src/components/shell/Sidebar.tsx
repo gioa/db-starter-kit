@@ -62,7 +62,7 @@ const NAV_SECTIONS: NavSection[] = [
   {
     label: "SQL",
     items: [
-      { id: "sql-editor",     label: "SQL Editor",     icon: QueryEditorIcon },
+      { id: "sql-editor",     label: "SQL Editor",     icon: QueryEditorIcon, href: "/sql" },
       { id: "queries",        label: "Queries",        icon: QueryIcon },
       { id: "dashboards",     label: "Dashboards",     icon: BarChartIcon,   href: "/dashboards" },
       { id: "genie",          label: "Genie",          icon: AssistantIcon },

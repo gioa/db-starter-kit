@@ -11,7 +11,7 @@ Rebuilds or updates a Figma frame to match what is currently in the codebase, us
 
 - Read a React/Next.js page and translate its layout to Figma nodes via the Plugin API
 - Rebuild frames using component instances, token variables, and text styles
-- Handle auto-layout, text wrapping, icon instances, and badge/button components
+- Handle auto-layout, text wrapping, and any UI primitive (Button, Input, Select, Badge, Table, Tabs, Dialog, Alert, Card, icons, etc.)
 - Force canvas repaint after programmatic edits (stale render fix)
 - Verify changes via plugin readback when screenshots are cached
 
@@ -20,7 +20,18 @@ Rebuilds or updates a Figma frame to match what is currently in the codebase, us
 ### Phase 0: Component gap audit (REQUIRED — do this before touching Figma)
 1. Read the target page file
 2. List every sub-component defined inline or imported from `@/components` that appears 2+ times
-3. For each, check `figma_node_map.md` and `search_design_system` to see if a Figma component already exists
+3. For each, check whether a Figma component already exists using two sources:
+   - **`docs/figma-node-map.md`** (committed to the repo) — the canonical list of component node IDs and variable keys for this file. If this file doesn't exist yet on your checkout, generate it by running the discovery script below.
+   - **Figma MCP tool `search_design_system("ComponentName")`** — searches the live Figma file by name; always works regardless of whether the doc exists.
+
+   **First-time / fresh checkout discovery script** (run via `use_figma` if `docs/figma-node-map.md` is missing):
+   ```js
+   const allComponents = figma.root.children.flatMap(p =>
+     p.findAll(n => n.type === "COMPONENT" || n.type === "COMPONENT_SET")
+   );
+   return allComponents.map(n => ({ name: n.name, id: n.id, key: n.key, page: n.parent?.name }));
+   ```
+   Paste the output into `docs/figma-node-map.md` and commit it so teammates don't have to re-run it.
 4. **Stop here** — present the gap list to the user or resolve it before proceeding:
    - **Exists in Figma** → note the node ID, use `importComponentByKeyAsync` later
    - **Missing from Figma** → create it as a proper Figma component first (token-bound fills, text styles, auto-layout), publish it, record its node ID
@@ -39,7 +50,7 @@ Rebuilds or updates a Figma frame to match what is currently in the codebase, us
 ### Phase 3: Gather resources (before clearing anything)
 1. Import variables via `importVariableByKeyAsync` — never use raw hex
 2. Import text styles via `importStyleByKeyAsync` — never set fontSize/fontName manually
-3. Import component keys for buttons, badges, icons via `importComponentByKeyAsync`
+3. Import component keys for all UI primitives (Button, Input, Select, Badge, Table, Tabs, Dialog, Alert, Card, icons, etc.) via `importComponentByKeyAsync` — check `docs/figma-node-map.md` for node IDs and keys, or run `search_design_system` if the doc is missing
 4. **Clone any existing nodes you'll reuse BEFORE clearing the frame** — once removed they're gone
 5. Load all fonts upfront with `loadFontAsync` — include both Regular and Semibold for SF Pro
 

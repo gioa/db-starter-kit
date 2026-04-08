@@ -8,15 +8,16 @@ import { Badge } from "@/components/ui/badge"
 import { DatabricksLogo } from "@/components/shell/DatabricksLogo"
 import { ThemeToggle } from "@/components/theme-toggle"
 import {
-  NotebookIcon, WorkflowsIcon, BarChartIcon, LayerIcon, CloudIcon,
+  NotebookIcon, WorkflowsIcon, BarChartIcon, CloudIcon, CatalogIcon, QueryEditorIcon,
 } from "@/components/icons"
 
 const DEMOS = [
-  { href: "/shell",         icon: NotebookIcon,  label: "Workspace",     desc: "Full shell with sidebar, nav, and notebook editor" },
-  { href: "/jobs",          icon: WorkflowsIcon, label: "Jobs",          desc: "Tabular list page with filter bar and split button" },
-  { href: "/dashboards",    icon: BarChartIcon,  label: "Dashboards",    desc: "Card grid with detail panel and chart preview" },
-  { href: "/compute",       icon: CloudIcon,     label: "Compute",       desc: "Tabs + table + pagination list page" },
-  { href: "/design-system", icon: LayerIcon,     label: "Design system", desc: "All DuBois components, tokens, and icons" },
+  { href: "/workspace",     icon: NotebookIcon,    label: "Workspace",   desc: "Full shell with sidebar, nav, and notebook editor" },
+  { href: "/jobs",          icon: WorkflowsIcon,   label: "Jobs",        desc: "Tabular list page with filter bar and split button" },
+  { href: "/dashboards",    icon: BarChartIcon,    label: "Dashboards",  desc: "Card grid with detail panel and chart preview" },
+  { href: "/compute",       icon: CloudIcon,       label: "Compute",     desc: "Tabs + table + pagination list page" },
+  { href: "/catalog",       icon: CatalogIcon,     label: "Catalog",     desc: "Table detail page with columns, lineage, and metadata sidebar" },
+  { href: "/sql",           icon: QueryEditorIcon, label: "SQL Editor",  desc: "Multi-tab SQL editor with query tree, toolbar, and output panel" },
 ]
 
 export default function Home() {

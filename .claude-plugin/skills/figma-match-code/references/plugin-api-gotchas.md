@@ -109,6 +109,62 @@ inst.visible = false; inst.visible = true; // force repaint
 
 ---
 
+## Just-Created Components: Use `getNodeById`, Not `importComponentByKeyAsync`
+
+`importComponentByKeyAsync` only works for **published** library components. If you create a component in run 1 and need to instantiate it in run 2, the component exists in the file but hasn't been published — `importComponentByKeyAsync` will throw "Component with key X not found".
+
+**Solution:** capture the node ID from run 1's return value, then use `figma.getNodeById(id)` in run 2.
+
+```js
+// Run 1 — create the component, return its ID
+const set = figma.combineAsVariants([defaultComp, hoverComp], figma.currentPage);
+set.name = "SuggestionPill";
+return { id: set.id, defaultVariantId: set.children[0].id };
+
+// Run 2 — find it by ID, not by key
+const pillComp = figma.getNodeById("1684:10"); // ✅ works for unpublished
+const inst = pillComp.createInstance();
+
+// ❌ This will throw "Component with key ... not found"
+const pillComp = await figma.importComponentByKeyAsync("6f8fbfb5...");
+```
+
+---
+
+## Button icon-xs instances: always swap the inner icon
+
+When you instantiate `Button ghost/icon-xs` (or any icon-only button), the inner icon is whatever is set as default in the component — often a sparkle placeholder. You must explicitly swap it for every button instance:
+
+```js
+const btnGhostXs = await figma.importComponentByKeyAsync("8492689149c0486621b388ed3ab35d06d6731ce0");
+const iconClose  = await figma.importComponentByKeyAsync("164a0d7792675cff5cd40002a401df4e94942ec6");
+
+const btn = btnGhostXs.createInstance();
+btn.name = "Close";
+
+// ❌ Inner icon is still the default sparkle
+parent.appendChild(btn);
+
+// ✅ Swap after appending
+parent.appendChild(btn);
+const innerIcon = btn.findOne(n => n.type === "INSTANCE");
+if (innerIcon) innerIcon.swapComponent(iconClose);
+```
+
+Helper for building icon buttons in one call:
+```js
+function makeIconBtn(btnComp, iconComp, label) {
+  const btn = btnComp.createInstance();
+  btn.name = label;
+  return { btn, swap: (parent) => {
+    parent.appendChild(btn);
+    btn.findOne(n => n.type === "INSTANCE")?.swapComponent(iconComp);
+  }};
+}
+```
+
+---
+
 ## Cloning Nodes Across Pages / Before Clearing
 
 **Clone nodes you need BEFORE you clear the parent frame** — removed nodes are gone permanently.
@@ -193,6 +249,23 @@ For other icon keys: search the Icons page with `figma.root.children.find(p => p
 ---
 
 ## Token & Style Binding
+
+**`setBoundVariableForPaint` returns a new paint — it does NOT mutate the original.** This is the most common source of "everything is black" bugs. Always use the return value:
+
+```js
+// ❌ Bug — fill is still plain black, variable binding is discarded
+const fill = { type: "SOLID", color: { r: 0, g: 0, b: 0 } };
+figma.variables.setBoundVariableForPaint(fill, "color", bgVar);
+node.fills = [fill]; // ← unbound, renders black
+
+// ✅ Correct — use the returned bound paint
+function vFill(variable) {
+  return figma.variables.setBoundVariableForPaint(
+    { type: "SOLID", color: { r: 1, g: 1, b: 1 } }, "color", variable
+  );
+}
+node.fills = [vFill(bgVar)];
+```
 
 Always use tokens, never raw values:
 ```js

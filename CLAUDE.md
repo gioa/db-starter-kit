@@ -22,6 +22,7 @@ The DuBois design system rules below are **always active** — apply them to eve
 - Prefer established component library patterns (e.g., shadcn `Sheet` for mobile drawers, DuBois design system tokens) over custom CSS hacks. Ask the user which pattern to use if unsure.
 - **Never use raw `<button>`, `<a>`, or `<div onClick>` in page files.** Always use `Button` or a named pattern component from `@/components/ui` or `@/components/shell`.
 - Icon-only interactive elements: always `Button variant="ghost" size="icon-xs"` or `size="icon-sm"`.
+- **Never nest a `<Button>` or `<button>` inside another `<button>` or clickable container that renders as a button** — this is invalid HTML and causes a React hydration error. When a clickable row/tab needs an inner action (e.g. close button), make the outer container a `<div role="tab" onClick>` with `cursor-pointer`, and keep the inner action as a `<button>` or `<Button>`.
 - Every new visual pattern that appears 2+ times across pages must become a named component with a matching Figma component and Code Connect mapping before it ships.
 
 ## Figma Component Creation
