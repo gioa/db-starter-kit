@@ -69,14 +69,67 @@ t.characters = "GitHub";
 
 ## Stale Canvas Render
 
-After detaching instances and editing text, Figma's canvas sometimes doesn't repaint until the user clicks. Fix by nudging the node's position:
+**Two separate caches to understand:**
+1. **Figma canvas** — what you see when you open Figma. Can be fixed programmatically.
+2. **`get_screenshot` tool** — has its own independent cache that **cannot be invalidated from the plugin API**. It will return stale images even when the canvas is correct. Do not use screenshots alone to verify changes — always confirm via API readback.
+
 ```js
-node.x += 0.5;
-node.x -= 0.5;
-figma.currentPage.selection = [node]; // selecting also triggers repaint
-figma.currentPage.selection = [];
+// ✅ Always verify text via readback, not screenshot
+const t = node.findOne(n => n.type === "TEXT");
+return t.characters; // authoritative
 ```
-If nudging doesn't help for a specific node (e.g. badge), replace it entirely with a fresh plain frame — avoids the stale instance state altogether.
+
+### Fixing canvas stale render
+
+**Rule: toggle visibility AFTER appending to parent.** The toggle has no effect before the node is in the tree.
+
+```js
+// ❌ Toggle before append — does nothing
+inst.visible = false; inst.visible = true;
+parent.appendChild(inst);
+
+// ✅ Correct order: append → set content → toggle
+parent.appendChild(inst);
+const t = inst.findOne(n => n.type === "TEXT");
+await figma.loadFontAsync(t.fontName);
+t.characters = "New value";
+inst.visible = false;
+inst.visible = true;
+```
+
+**Standard repaint sequence to run at the end of every script:**
+```js
+// 1. Toggle each modified node
+for (const node of modifiedNodes) {
+  node.visible = false;
+  node.visible = true;
+}
+// 2. Toggle the parent container
+container.visible = false;
+container.visible = true;
+// 3. Scroll into view
+figma.viewport.scrollAndZoomIntoView([container]);
+```
+
+**The 0.5px position nudge does NOT reliably work** — Figma's renderer ignores sub-pixel moves. Don't use it.
+
+---
+
+**Never create a component and instantiate it in the same plugin run** — text overrides on instances will appear correct in the API but render stale on the canvas. The renderer hasn't fully processed the new component yet within the same execution context. Split into two `use_figma` calls: one to create the component, one to build the screen.
+
+```js
+// ❌ Same run: component created then immediately instantiated with text override
+const comp = figma.createComponentFromNode(frame);
+const inst = comp.createInstance();
+inst.findOne(n => n.type === "TEXT").characters = "Owner"; // API correct, canvas stale
+
+// ✅ Run 1: create the component (get its node ID from the return value)
+// ✅ Run 2: getNodeByIdAsync + createInstance + visible toggle at the end
+const comp = await figma.getNodeByIdAsync("1612:417");
+const inst = comp.createInstance();
+inst.findOne(n => n.type === "TEXT").characters = "Owner";
+inst.visible = false; inst.visible = true; // force repaint
+```
 
 ---
 
@@ -111,6 +164,55 @@ return t.characters; // authoritative — not the screenshot
 ```
 
 **Screenshot a specific small node** to bypass full-frame cache: use the card or button's node ID rather than the whole page frame.
+
+---
+
+## Icons and Badges — Always Use Component Instances
+
+**Never use placeholder rectangles or raw frames for icons or badges.** Always import and instantiate the real component.
+
+```js
+// ❌ Wrong — placeholder rect for an icon
+const icon = figma.createRectangle();
+icon.resize(12, 12);
+
+// ✅ Correct — real icon instance
+const tableIcon = await figma.importComponentByKeyAsync("9fff29c3b9592b83543cf766f3044cc95b5a03e4"); // Icons/Table
+const iconInst = tableIcon.createInstance();
+iconInst.resize(12, 12);
+
+// ❌ Wrong — raw frame styled to look like a badge
+const tb = figma.createFrame();
+tb.cornerRadius = 4;
+// ... manual fills, text node
+
+// ✅ Correct — real Badge instance with text override
+const badge = await figma.importComponentByKeyAsync("95186d8a0f342adc570e541e8c032a3233735526"); // Badge/teal
+const inst = badge.createInstance();
+parent.appendChild(inst); // append first
+const t = inst.findOne(n => n.type === "TEXT");
+await figma.loadFontAsync(t.fontName);
+t.characters = "Certified";
+inst.visible = false; inst.visible = true; // repaint after append
+```
+
+**Icon component keys** (Icons page):
+| Code import | Figma key |
+|---|---|
+| `TableIcon` | `9fff29c3b9592b83543cf766f3044cc95b5a03e4` |
+
+**Badge variant keys**:
+| Variant | Key |
+|---|---|
+| `default` | `45bc59f26401460769c4e74a2eff3546bc5c4c1c` |
+| `secondary` | `fdc6f9605181ffc879ddd8895e9883fa183652ac` |
+| `destructive` | `92339e6ac02001e35d779a6da94b9880e8f0de97` |
+| `teal` | `95186d8a0f342adc570e541e8c032a3233735526` |
+| `indigo` | `176bd201a80cdf19c2f9240fc02369e2a4141ea8` |
+| `coral` | `fbfaa74466d3ece318b3ef54c676394d881adb91` |
+| `lemon` | `c855887a25e68990d3e63499ecb8d6cfff8f658a` |
+
+For other icon keys: search the Icons page with `figma.root.children.find(p => p.name === "Icons").findAll(n => n.type === "COMPONENT" && n.name.includes("YourIcon"))`.
 
 ---
 
