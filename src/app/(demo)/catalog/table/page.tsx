@@ -2,7 +2,9 @@
 
 import * as React from "react"
 import Link from "next/link"
+import { useSearchParams } from "next/navigation"
 import { cn } from "@/lib/utils"
+import { CatalogPanel } from "../_components/CatalogPanel"
 import { AppShell, PageHeader } from "@/components/shell"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -278,7 +280,10 @@ function LineageMiniDiagram({ nodes }: { nodes: LineageNode[] }) {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default function CatalogTablePage() {
+function CatalogTableContent() {
+  const searchParams = useSearchParams()
+  const tableName = searchParams.get("name") ?? TABLE.name
+
   const [activeNav, setActiveNav] = React.useState("catalog")
   const [filterColumns, setFilterColumns] = React.useState("")
   const [page, setPage] = React.useState(1)
@@ -290,6 +295,9 @@ export default function CatalogTablePage() {
 
   return (
     <AppShell activeItem={activeNav} onNavigate={setActiveNav} workspace="Production" userInitial="J">
+      <div className="flex h-full overflow-hidden">
+      <CatalogPanel selectedId={`r-${tableName}`} />
+      <div className="flex-1 overflow-y-auto">
       <div className="flex flex-col gap-4 p-6">
 
         {/* ── Page header ──────────────────────────────────────────────── */}
@@ -299,7 +307,7 @@ export default function CatalogTablePage() {
               <BreadcrumbList>
                 <BreadcrumbItem>
                   <BreadcrumbLink asChild>
-                    <Link href="#">Catalog</Link>
+                    <Link href="/catalog">Catalog</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
@@ -321,7 +329,7 @@ export default function CatalogTablePage() {
           title={
             <>
               <TableIcon size={16} className="mr-2 inline-block align-middle text-muted-foreground" />
-              {TABLE.name}
+              {tableName}
             </>
           }
           titleIcons={
@@ -331,11 +339,9 @@ export default function CatalogTablePage() {
           }
           starred
           onStarToggle={() => {}}
+          onOverflow={() => {}}
           actions={
             <>
-              <Button variant="ghost" size="icon-xs" aria-label="More options">
-                <OverflowIcon size={14} className="text-muted-foreground" />
-              </Button>
               <div className="flex items-center">
                 <Button variant="outline" size="sm" className="rounded-r-none border-r-0">
                   Open in a dashboard
@@ -663,6 +669,16 @@ export default function CatalogTablePage() {
           )}
         </Tabs>
       </div>
+      </div>{/* scroll wrapper */}
+      </div>{/* two-column */}
     </AppShell>
+  )
+}
+
+export default function CatalogTablePage() {
+  return (
+    <React.Suspense>
+      <CatalogTableContent />
+    </React.Suspense>
   )
 }
