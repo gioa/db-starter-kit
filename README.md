@@ -30,10 +30,12 @@ npm run dev
 | Route | What you'll see |
 |---|---|
 | [`/`](http://localhost:3000) | Landing page |
-| [`/shell`](http://localhost:3000/shell) | App shell demo — workspace home |
+| [`/workspace`](http://localhost:3000/workspace) | App shell demo — workspace home |
 | [`/jobs`](http://localhost:3000/jobs) | Jobs & Pipelines page example |
 | [`/compute`](http://localhost:3000/compute) | Compute clusters page example |
 | [`/dashboards`](http://localhost:3000/dashboards) | Dashboards card grid example |
+| [`/catalog`](http://localhost:3000/catalog) | Table detail: columns, lineage, metadata sidebar |
+| [`/sql`](http://localhost:3000/sql) | SQL editor: multi-tab, query tree, output panel |
 | [`/design-system`](http://localhost:3000/design-system) | Full component reference |
 
 ---
@@ -130,6 +132,10 @@ In `src/components/shell/Sidebar.tsx`, add an `href` to any nav item:
 
 Then create `src/app/catalog/page.tsx` with `activeItem="catalog"` passed to `AppShell`.
 
+### AI right-side panel
+
+`GenieCodePanel` is a right-side AI assistant panel toggled by the TopBar sparkle button. It's already wired into `AppShell` — `genieOpen` state is owned by the shell and adjusts the main content margin automatically. Import and use `SuggestionPill` for prompt chips with the speech-bubble pointer style and AI gradient hover.
+
 ---
 
 ## Design system rules (always enforced via `CLAUDE.md`)
@@ -155,11 +161,12 @@ src/
 │   ├── layout.tsx            ← ThemeProvider + TooltipProvider
 │   ├── page.tsx              ← Landing page
 │   └── (demo)/               ← Demo pages (delete this folder to start fresh)
-│       ├── shell/            ← Workspace home (/shell)
+│       ├── workspace/        ← Workspace home (/workspace)
 │       ├── jobs/             ← Jobs & Pipelines (/jobs)
 │       ├── compute/          ← Compute clusters (/compute)
 │       ├── dashboards/       ← Dashboards (/dashboards)
-│       ├── workspace/        ← Notebook editor (/workspace/notebook)
+│       ├── catalog/          ← Table detail (/catalog)
+│       ├── sql/              ← SQL editor (/sql)
 │       └── design-system/    ← Component reference (/design-system)
 ├── components/
 │   ├── ui/                   ← shadcn/ui components (DuBois-overridden)
@@ -168,13 +175,15 @@ src/
 │   │   ├── badge.tsx
 │   │   ├── alert.tsx
 │   │   ├── breadcrumb.tsx
-│   │   ├── db-icon.tsx       ← Unified icon wrapper
+│   │   ├── db-icon.tsx       ← Unified icon wrapper (use color="ai" for gradient)
+│   │   ├── suggestion-pill.tsx ← AI prompt chip with pointer corner + gradient hover
 │   │   └── ...
 │   ├── icons/                ← 445 DuBois SVG components
 │   └── shell/
-│       ├── AppShell.tsx      ← Layout wrapper
+│       ├── AppShell.tsx      ← Layout wrapper (owns sidebar + genie panel state)
 │       ├── TopBar.tsx        ← 48px top navigation bar
 │       ├── Sidebar.tsx       ← Collapsible left nav (add href to link pages)
+│       ├── GenieCodePanel.tsx ← Right-side AI assistant panel
 │       ├── NewButton.tsx     ← Brand-tinted "+ New" button
 │       ├── PageHeader.tsx    ← Page header: breadcrumbs + title + actions
 │       ├── DatabricksLogo.tsx
@@ -183,6 +192,19 @@ src/
 │   └── sync-icons.mjs        ← Re-sync icons from DuBois source
 └── lib/utils.ts
 ```
+
+---
+
+## Figma writeback
+
+Sync your code changes back to Figma as real component instances using the `figma-match-code` skill. Import the **"DB UI starter kit"** Figma library into your file first, then describe what you want to Claude Code:
+
+```
+"Create a Figma component for the GenieCodePanel in the Shell page"
+"Rebuild the /jobs Figma frame to match the current code"
+```
+
+See [`docs/getting-started.md`](docs/getting-started.md#3-writing-designs-back-to-figma) for the full workflow.
 
 ---
 
