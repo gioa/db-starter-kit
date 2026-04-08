@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import { AppShell } from "@/components/shell"
 import { HeroSearch } from "@/components/ui/hero-search"
 import { FilterPill } from "@/components/ui/filter-pill"
@@ -136,8 +137,9 @@ export default function HomePage() {
             <p className="py-12 text-center text-sm text-muted-foreground">No items found.</p>
           ) : (
             filtered.map((item) => (
-              <button
+              <Link
                 key={item.id + item.name}
+                href="/catalog"
                 className="group flex w-full h-12 items-center gap-3 border-b border-border px-2 text-left hover:bg-secondary transition-colors"
               >
                 {/* Type icon */}
@@ -166,7 +168,7 @@ export default function HomePage() {
                 <span className="shrink-0 text-sm text-foreground w-20 text-right">
                   {item.type}
                 </span>
-              </button>
+              </Link>
             ))
           )}
         </div>

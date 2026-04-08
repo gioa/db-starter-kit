@@ -53,7 +53,7 @@ const NAV_SECTIONS: NavSection[] = [
     items: [
       { id: "workspace",   label: "Workspace",   icon: NotebookIcon,   href: "/workspace" },
       { id: "recents",     label: "Recents",     icon: ClockIcon },
-      { id: "catalog",     label: "Catalog",     icon: CatalogIcon },
+      { id: "catalog",     label: "Catalog",     icon: CatalogIcon,    href: "/catalog" },
       { id: "workflows",   label: "Workflows",   icon: WorkflowsIcon,  href: "/jobs" },
       { id: "compute",     label: "Compute",     icon: CloudIcon,      href: "/compute" },
       { id: "marketplace", label: "Marketplace", icon: StorefrontIcon },

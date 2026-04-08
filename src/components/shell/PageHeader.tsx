@@ -3,7 +3,7 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { StarIcon, StarFillIcon } from "@/components/icons"
+import { StarIcon, StarFillIcon, OverflowIcon } from "@/components/icons"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -24,8 +24,10 @@ interface PageHeaderProps {
   badge?: React.ReactNode
   /** Short description line rendered below the title row */
   description?: React.ReactNode
-  /** Right-aligned action buttons (overflow, secondary, primary) */
+  /** Right-aligned action buttons (secondary, primary) */
   actions?: React.ReactNode
+  /** Renders a standard overflow (⋮) icon button as the first action */
+  onOverflow?: () => void
   className?: string
 }
 
@@ -41,6 +43,7 @@ export function PageHeader({
   badge,
   description,
   actions,
+  onOverflow,
   className,
 }: PageHeaderProps) {
   return (
@@ -79,9 +82,16 @@ export function PageHeader({
           {badge && <div className="flex items-center">{badge}</div>}
         </div>
 
-        {/* Right: action buttons */}
-        {actions && (
-          <div className="flex shrink-0 items-center gap-2">{actions}</div>
+        {/* Right: overflow + action buttons */}
+        {(onOverflow || actions) && (
+          <div className="flex shrink-0 items-center gap-2">
+            {onOverflow && (
+              <Button variant="ghost" size="icon-sm" aria-label="More options" onClick={onOverflow}>
+                <OverflowIcon size={16} className="text-muted-foreground" />
+              </Button>
+            )}
+            {actions}
+          </div>
         )}
       </div>
 
