@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AiElementsTab } from "./ai-elements-tab";
 import {
   AlertCircle,
@@ -202,6 +202,7 @@ const DEMO_TREE: TreeNodeType[] = [
 // ─── Main page ────────────────────────────────────────────────────────────────
 
 export default function DesignSystemPage() {
+  const [activeTab, setActiveTab] = useState("dubois");
   const [iconSearch, setIconSearch] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [segTab, setSegTab] = useState("table");
@@ -210,6 +211,15 @@ export default function DesignSystemPage() {
   const [sliderVal, setSliderVal] = useState([40]);
   const [treeSelected, setTreeSelected] = useState("nb-1");
 
+  useEffect(() => {
+    if (window.location.hash === "#aiElements") setActiveTab("ai-elements");
+  }, []);
+
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    window.location.hash = value === "ai-elements" ? "aiElements" : "";
+  };
+
   const iconEntries = Object.entries(Icons) as [string, React.ComponentType<{ size?: number; className?: string }>][];
   const filteredIcons = iconEntries.filter(([name]) =>
     name.toLowerCase().includes(iconSearch.toLowerCase())
@@ -217,7 +227,7 @@ export default function DesignSystemPage() {
 
   return (
     <div>
-      <Tabs defaultValue="dubois" className="w-full">
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
         <TabsList variant="line" className="mb-8">
           <TabsTrigger value="dubois">DuBois</TabsTrigger>
           <TabsTrigger value="ai-elements">AI Elements</TabsTrigger>
