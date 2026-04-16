@@ -182,8 +182,8 @@ export function GenieCodePanel({ open, onClose, className }: GenieCodePanelProps
                           </ChainOfThoughtContent>
                         </ChainOfThought>
                       )}
-                      <MessageContent>{msg.content}</MessageContent>
-                      <MessageToolbar>
+                      <MessageContent className="pl-3">{msg.content}</MessageContent>
+                      <MessageToolbar className="pl-3">
                         <MessageActions>
                           <MessageAction tooltip="Copy">
                             <CopyIcon className="h-4 w-4" />
