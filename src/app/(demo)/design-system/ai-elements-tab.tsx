@@ -162,6 +162,24 @@ export function AiElementsTab() {
   const [genieVariant, setGenieVariant] = useState("all");
   const [genieSize, setGenieSize] = useState("all");
 
+  const sections = [
+    { id: "ae-message", label: "Message" },
+    { id: "ae-prompt-input", label: "Genie Prompt" },
+    { id: "ae-suggestions", label: "Suggestions" },
+    { id: "ae-chain-of-thought", label: "Chain of Thought" },
+    { id: "ae-code-block", label: "Code Block" },
+    { id: "ae-sources", label: "Sources" },
+    { id: "ae-reasoning", label: "Reasoning" },
+    { id: "ae-shimmer", label: "Shimmer" },
+    { id: "ae-tool", label: "Tool" },
+    { id: "ae-task", label: "Task" },
+    { id: "ae-checkpoint", label: "Checkpoint" },
+    { id: "ae-commit", label: "Commit" },
+    { id: "ae-snippet", label: "Snippet" },
+    { id: "ae-terminal", label: "Terminal" },
+    { id: "ae-web-preview", label: "Web Preview" },
+  ];
+
   return (
     <div>
       <div className="mb-12">
@@ -172,6 +190,18 @@ export function AiElementsTab() {
         <p className="mt-2 text-sm text-muted-foreground">
           AI SDK UI components styled with DuBois tokens. Drop-in for chat, code, and agent UIs.
         </p>
+        {/* TOC */}
+        <div className="mt-6 flex flex-wrap gap-1.5">
+          {sections.map(({ id, label }) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              className="rounded px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+            >
+              {label}
+            </a>
+          ))}
+        </div>
       </div>
 
       {/* ── Message ──────────────────────────────────────────────────────── */}
