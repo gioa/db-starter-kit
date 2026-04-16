@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AiElementsTab } from "./ai-elements-tab";
 import {
   AlertCircle,
   CheckCircle2,
@@ -216,6 +217,17 @@ export default function DesignSystemPage() {
 
   return (
     <div>
+      <Tabs defaultValue="dubois" className="w-full">
+        <TabsList variant="line" className="mb-8">
+          <TabsTrigger value="dubois">DuBois</TabsTrigger>
+          <TabsTrigger value="ai-elements">AI Elements</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="ai-elements">
+          <AiElementsTab />
+        </TabsContent>
+
+        <TabsContent value="dubois">
         <div className="mb-12">
           <h1 className="text-2xl font-semibold text-foreground">
             Databricks UI — Component Reference
@@ -1395,6 +1407,8 @@ export default function DesignSystemPage() {
         <p className="text-xs text-muted-foreground pb-8">
           Databricks Designer Starter Kit · DuBois tokens on shadcn/ui · Tailwind v4
         </p>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
