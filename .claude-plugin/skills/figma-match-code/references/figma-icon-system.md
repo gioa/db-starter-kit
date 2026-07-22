@@ -238,12 +238,72 @@ If you're drawing a new icon from scratch (not synced from code):
 
 ---
 
+## Icon Lookup Workflow (Required Before Any Screen Build)
+
+Before placing any icon in a screen or component:
+
+1. **Read the source file** and collect every icon import name (e.g. `DashboardIcon`, `ShieldCheckIcon`).
+2. **Run `search_design_system`** on each name against `KHFOMM4oUyT9XgeeXpbzns` to get its exact component key.
+3. **Build the mapping table** (name → key → active/inactive token) before writing any `use_figma` code.
+
+**Never guess an icon key.** If `search_design_system` returns nothing for a name, report it and skip — do not substitute a similar icon silently.
+
+Example mapping table:
+```
+DashboardIcon    → e81578a5181693282bb49fb2c4d1e071e8260900  (active=primary, inactive=muted-foreground)
+ShieldCheckIcon  → b3ce9bcd7c70bb03f324fcc64f599d1d7c2a3fc2
+RocketIcon       → f1d5d02fe09306509afe4d29b7681d48241b0743
+CatalogIcon      → 20bbfc937bf9e97c169be88a66e7059c373dbb11
+CloudDatabaseIcon→ b02bd8f84c32d7ad1571e98d3c7559258945d263
+ModelsIcon       → 51c3a35a72c5420dc7af33aa427aefd1f6b4b83e
+GearIcon         → 1f04f6bc619517f0469d7e8a1c42e68bf9521d0d
+BarChartIcon     → 86f0c344bda820278e299b6c7d501f97d3c459a2
+FileDocumentIcon → 923bda8cf0995715afefcdd9d50f8b34e1929614
+```
+
+---
+
+## Swapping Icons Inside Live Component Instances
+
+**Use `swapComponent()` — do NOT detach the parent.**
+
+When an icon needs to change inside a live NavItem (or any live component instance), call `swapComponent()` directly on the nested icon INSTANCE. This keeps the parent component live and only creates a local override on the icon child.
+
+```js
+// ✅ Correct — parent NavItem stays live
+const iconInst = navItem.findChild(c => c.name === 'icon' && c.type === 'INSTANCE');
+const newComp  = await figma.importComponentByKeyAsync(iconKey);
+iconInst.swapComponent(newComp);
+
+// Then bind fills on the new VECTOR children
+const vectors = iconInst.findAll(n => n.type === 'VECTOR');
+for (const vec of vectors) {
+  const boundPaint = figma.variables.setBoundVariableForPaint(
+    { type: 'SOLID', color: { r: 0, g: 0, b: 0 } }, 'color', tokenVar
+  );
+  vec.fills = [boundPaint];
+}
+
+// ❌ Wrong — detaching the parent breaks the live component link
+navItem.detachInstance(); // don't do this just to fix an icon
+```
+
+**When to use each approach:**
+
+| Situation | Approach |
+|---|---|
+| Parent is a live INSTANCE (NavItem, Button, etc.) | `swapComponent()` on the nested icon child |
+| Parent is already a detached FRAME | Detach the icon instance, then set fills on VECTORs |
+
+---
+
 ## Color Usage
 
 - Base fill on all vectors is black `{ r:0, g:0, b:0 }`.
 - To colorize an icon when placing it inside another component (e.g. NavItem), traverse into the VECTOR and set fills there.
 - **Never** set fills on the COMPONENT or INSTANCE container — that creates a solid colored rectangle, not a colored icon.
 - Bind to the `icon/fill` variable (`VariableID:509:308`) when the icon should respond to the design system's semantic color (e.g. muted-foreground in the nav).
+- Token variable keys: `muted-foreground` = `7feee8e49be37a3f711b341c29278beb33b8c636`, `primary` = `35a88d92b7805e99ea334c1c8f62327ab0778547`.
 
 ---
 
